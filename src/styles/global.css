@@ -13,11 +13,6 @@ body {
 	background-color: var(--theme-bg);
 	position: relative;
 	overflow-x: hidden;
-	/* Textura sutil de grade para dar profundidade */
-	background-image:
-		linear-gradient(rgba(255, 77, 166, 0.025) 1px, transparent 1px),
-		linear-gradient(90deg, rgba(255, 77, 166, 0.025) 1px, transparent 1px);
-	background-size: 60px 60px;
 }
 
 pre {

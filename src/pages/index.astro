@@ -36,7 +36,8 @@ import { products } from '../config/products.js';
 	<Container>
 		<section class="info-section">
 			<div class="info-card">
-				<h3>ZFI SYSTEM</h3>
+				<p class="info-eyebrow">Sobre nós</p>
+				<h3>ZEFI Solutions</h3>
 				<p>Tecnologia de ponta para performance máxima. Nossos produtos são desenvolvidos com os mais altos padrões de qualidade e segurança.</p>
 			</div>
 		</section>
@@ -91,22 +92,34 @@ import { products } from '../config/products.js';
 		background: var(--theme-surface-1);
 		border: 1px solid var(--theme-border-color, #1f1f22);
 		border-radius: 12px;
-		padding: 2rem;
+		padding: 3rem 2rem;
 		text-align: center;
 	}
 
+	.info-eyebrow {
+		font-size: 0.68rem;
+		font-weight: 600;
+		letter-spacing: 2.5px;
+		text-transform: uppercase;
+		color: var(--theme-text-secondary);
+		margin: 0 0 0.75rem 0;
+		font-family: var(--theme-font-family-sans);
+	}
+
 	.info-card h3 {
-		color: var(--theme-primary);
+		color: var(--theme-on-bg);
 		margin-bottom: 1rem;
-		font-size: 1.5rem;
-		letter-spacing: 2px;
+		font-size: clamp(1.5rem, 3vw, 2rem);
+		letter-spacing: 1px;
 	}
 
 	.info-card p {
 		color: var(--theme-text-secondary, #aaa);
-		line-height: 1.6;
-		max-width: 600px;
+		line-height: 1.7;
+		max-width: 520px;
 		margin: 0 auto;
+		font-size: 0.9rem;
+		font-family: var(--theme-font-family-sans);
 	}
 
 	@media (max-width: 768px) {
