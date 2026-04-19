@@ -1,0 +1,118 @@
+---
+import { Container } from '@components/odyssey-theme';
+import Layout from '../layouts/Page.astro';
+import ZefiHeroSection from '../components/sections/heros/ZefiHeroSection.astro';
+import ProductCard from '../components/products/ProductCard.astro';
+import { products } from '../config/products.js';
+---
+
+<Layout>
+	<ZefiHeroSection />
+	
+	<Container>
+		<section class="products-section" id="produtos">
+			<div class="section-header">
+				<h2>Nossos Produtos</h2>
+				<p class="pricing-note">* Todos os preços são mensais</p>
+			</div>
+			
+			<div class="products-grid">
+				{products.map((product) => (
+					<ProductCard
+						name={product.name}
+						description={product.description}
+						features={product.features}
+						price={product.price}
+						currency={product.currency}
+						popular={product.popular}
+					/>
+				))}
+			</div>
+		</section>
+	</Container>
+
+	<Container>
+		<section class="info-section">
+			<div class="info-card">
+				<h3>ZFI SYSTEM</h3>
+				<p>Tecnologia de ponta para performance máxima. Nossos produtos são desenvolvidos com os mais altos padrões de qualidade e segurança.</p>
+			</div>
+		</section>
+	</Container>
+</Layout>
+
+<style>
+	.products-section {
+		padding: 5rem 0;
+		margin: 0 auto;
+	}
+
+	.section-header {
+		text-align: center;
+		margin-bottom: 3rem;
+	}
+
+	.section-header h2 {
+		font-size: clamp(2rem, 5vw, 3rem);
+		margin-bottom: 1rem;
+		color: var(--theme-on-bg);
+	}
+
+	.pricing-note {
+		font-size: 0.875rem;
+		color: var(--theme-text-secondary, #777);
+		margin: 0;
+	}
+
+	.products-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		gap: 2rem;
+		margin-top: 2rem;
+	}
+
+	.info-section {
+		padding: 3rem 0 5rem;
+	}
+
+	.info-card {
+		background: var(--theme-surface-1);
+		border: 1px solid var(--theme-border-color, #1f1f22);
+		border-radius: 12px;
+		padding: 2rem;
+		text-align: center;
+	}
+
+	.info-card h3 {
+		color: var(--theme-primary);
+		margin-bottom: 1rem;
+		font-size: 1.5rem;
+		letter-spacing: 2px;
+	}
+
+	.info-card p {
+		color: var(--theme-text-secondary, #aaa);
+		line-height: 1.6;
+		max-width: 600px;
+		margin: 0 auto;
+	}
+
+	@media (max-width: 768px) {
+		.products-section {
+			padding: 3rem 0;
+		}
+
+		.products-grid {
+			grid-template-columns: 1fr;
+			gap: 1.5rem;
+		}
+
+		.info-section {
+			padding: 2rem 0 3rem;
+		}
+
+		.info-card {
+			padding: 1.5rem;
+		}
+	}
+</style>

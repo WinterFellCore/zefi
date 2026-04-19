@@ -1,0 +1,168 @@
+---
+export interface Props {
+	name: string;
+	description: string;
+	features: string[];
+	price: number;
+	currency?: string;
+	popular?: boolean;
+}
+
+const { name, description, features, price, currency = 'BRL', popular = false } = Astro.props;
+
+const formatPrice = (value: number, curr: string) => {
+	return new Intl.NumberFormat('pt-BR', {
+		style: 'currency',
+		currency: curr
+	}).format(value);
+};
+---
+
+<div class="product-card" class:list={[{ popular }]}>
+	{popular && <div class="popular-badge">POPULAR</div>}
+	<div class="product-header">
+		<h3>{name}</h3>
+		<p class="product-description">{description}</p>
+	</div>
+	
+	<ul class="product-features">
+		{features.map((feature) => (
+			<li>{feature}</li>
+		))}
+	</ul>
+	
+	<div class="product-footer">
+		<div class="price">{formatPrice(price, currency)}<span class="period">/mês</span></div>
+		<button class="buy-button">Comprar Agora</button>
+	</div>
+</div>
+
+<style>
+	.product-card {
+		background: var(--theme-surface-1);
+		border: 1px solid var(--theme-border-color, #1f1f22);
+		border-radius: 12px;
+		padding: 2rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		transition: all 0.3s ease;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.product-card:hover {
+		border-color: var(--theme-primary);
+		transform: translateY(-4px);
+		box-shadow: 0 8px 24px rgba(255, 77, 166, 0.15);
+	}
+
+	.product-card.popular {
+		border-color: var(--theme-primary);
+		box-shadow: 0 4px 16px rgba(255, 77, 166, 0.2);
+	}
+
+	.popular-badge {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		background: var(--theme-primary);
+		color: white;
+		padding: 0.25rem 0.75rem;
+		border-radius: 20px;
+		font-size: 0.75rem;
+		font-weight: bold;
+		letter-spacing: 0.5px;
+	}
+
+	.product-header h3 {
+		font-size: 1.5rem;
+		margin-bottom: 0.5rem;
+		color: var(--theme-on-bg);
+	}
+
+	.product-description {
+		font-size: 0.875rem;
+		color: var(--theme-text-secondary, #aaa);
+		margin: 0;
+	}
+
+	.product-features {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		flex-grow: 1;
+	}
+
+	.product-features li {
+		font-size: 0.875rem;
+		color: var(--theme-text-secondary, #aaa);
+		line-height: 1.8;
+		padding-left: 1.5rem;
+		position: relative;
+	}
+
+	.product-features li::before {
+		content: '✓';
+		position: absolute;
+		left: 0;
+		color: var(--theme-primary);
+		font-weight: bold;
+	}
+
+	.product-footer {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		padding-top: 1rem;
+		border-top: 1px solid var(--theme-border-color, #1f1f22);
+	}
+
+	.price {
+		font-size: 1.75rem;
+		font-weight: bold;
+		color: var(--theme-on-bg);
+	}
+
+	.period {
+		font-size: 1rem;
+		font-weight: normal;
+		color: var(--theme-text-secondary, #aaa);
+	}
+
+	.buy-button {
+		width: 100%;
+		padding: 0.875rem 1.5rem;
+		background: var(--theme-primary);
+		color: white;
+		border: none;
+		border-radius: 8px;
+		font-size: 1rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+
+	.buy-button:hover {
+		background: var(--theme-primary-hover, #ff2d95);
+		transform: scale(1.02);
+	}
+
+	.buy-button:active {
+		transform: scale(0.98);
+	}
+
+	@media (max-width: 768px) {
+		.product-card {
+			padding: 1.5rem;
+		}
+
+		.product-header h3 {
+			font-size: 1.25rem;
+		}
+
+		.price {
+			font-size: 1.5rem;
+		}
+	}
+</style>
