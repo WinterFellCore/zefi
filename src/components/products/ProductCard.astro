@@ -41,25 +41,23 @@ const formatPrice = (value: number, curr: string) => {
 	.product-card {
 		background: var(--theme-surface-1);
 		border: 1px solid var(--theme-border-color, #1f1f22);
-		border-radius: 12px;
+		border-radius: 8px;
 		padding: 2rem;
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
-		transition: all 0.3s ease;
+		transition: all 0.2s ease;
 		position: relative;
 		overflow: hidden;
 	}
 
 	.product-card:hover {
 		border-color: var(--theme-primary);
-		transform: translateY(-4px);
-		box-shadow: 0 8px 24px rgba(255, 77, 166, 0.15);
+		transform: translateY(-2px);
 	}
 
 	.product-card.popular {
 		border-color: var(--theme-primary);
-		box-shadow: 0 4px 16px rgba(255, 77, 166, 0.2);
 	}
 
 	.popular-badge {
@@ -69,9 +67,9 @@ const formatPrice = (value: number, curr: string) => {
 		background: var(--theme-primary);
 		color: white;
 		padding: 0.25rem 0.75rem;
-		border-radius: 20px;
+		border-radius: 4px;
 		font-size: 0.75rem;
-		font-weight: bold;
+		font-weight: 600;
 		letter-spacing: 0.5px;
 	}
 
@@ -79,6 +77,7 @@ const formatPrice = (value: number, curr: string) => {
 		font-size: 1.5rem;
 		margin-bottom: 0.5rem;
 		color: var(--theme-on-bg);
+		font-weight: 600;
 	}
 
 	.product-description {
@@ -120,7 +119,7 @@ const formatPrice = (value: number, curr: string) => {
 
 	.price {
 		font-size: 1.75rem;
-		font-weight: bold;
+		font-weight: 700;
 		color: var(--theme-on-bg);
 	}
 
@@ -136,7 +135,7 @@ const formatPrice = (value: number, curr: string) => {
 		background: var(--theme-primary);
 		color: white;
 		border: none;
-		border-radius: 8px;
+		border-radius: 6px;
 		font-size: 1rem;
 		font-weight: 600;
 		cursor: pointer;
@@ -145,7 +144,6 @@ const formatPrice = (value: number, curr: string) => {
 
 	.buy-button:hover {
 		background: var(--theme-primary-hover, #ff2d95);
-		transform: scale(1.02);
 	}
 
 	.buy-button:active {
