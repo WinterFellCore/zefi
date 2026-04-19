@@ -13,9 +13,6 @@ const { footerSocials, footerLists, copyrightName, background, color, showPlug: 
   <Container>
     <div class="footer-grid__container">
       <div class="footer-brand__container">
-        <div>
-          <slot name="logo" />
-        </div>
         <ul class="footer-socials__list">
           {
             footerSocials.map((social) => (
@@ -51,7 +48,10 @@ const { footerSocials, footerLists, copyrightName, background, color, showPlug: 
     </div>
     <div class="footer-copyright__container">
       {showPlug && <Plug/>}
-      <p>Copyright &copy; {new Date().getFullYear()} {copyrightName}</p>
+      <div class="footer-bottom">
+        <slot name="logo" />
+        <p>Copyright &copy; {new Date().getFullYear()} {copyrightName}</p>
+      </div>
     </div>
 
   </Container>
@@ -98,10 +98,28 @@ const { footerSocials, footerLists, copyrightName, background, color, showPlug: 
   .footer-copyright__container {
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */
   }
   .footer-copyright__container p {
     font-size: var(--font-size-sm);
+  }
+  .footer-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem 0 3rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    text-align: center;
+  }
+  .footer-bottom :global(img) {
+    height: 120px !important;
+    width: auto;
+    opacity: 0.9;
+  }
+  .footer-bottom p {
+    font-size: var(--font-size-sm);
+    opacity: 0.5;
+    margin: 0;
   }
   @media (max-width: 768px) {
     .footer-grid__container :first-child {
