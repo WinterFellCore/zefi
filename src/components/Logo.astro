@@ -1,26 +1,24 @@
 ---
 ---
 
-<div class="zefi-logo">
-	<img src="/zefi-logo.png" alt="ZEFI" class="logo-img" />
-</div>
+<a href="/" class="zefi-logo" aria-label="ZEFI Home">
+	<img src="/zefi.png" alt="ZEFI" class="logo-img" />
+</a>
 
 <style>
 	.zefi-logo {
-		width: fit-content;
-		margin: 0;
-		display: flex;
+		display: inline-flex;
 		align-items: center;
+		text-decoration: none;
+		transition: opacity 0.2s ease;
 	}
-	
+
+	.zefi-logo:hover {
+		opacity: 0.85;
+	}
+
 	.logo-img {
 		height: 40px;
 		width: auto;
-		transition: opacity 0.2s ease;
-	}
-	
-	.zefi-logo:hover .logo-img {
-		opacity: 0.8;
-		cursor: pointer;
 	}
 </style>
