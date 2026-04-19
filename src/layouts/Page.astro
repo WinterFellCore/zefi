@@ -22,7 +22,7 @@ const { seo } = Astro.props as Props;
 			<Logo />
 		</span>
 		<div slot="action-item" class="header-info">
-			<span class="zfi-system">ZFI SYSTEM</span>
+			<span class="zfi-system">ZEFI Solutions</span>
 		</div>
 	</Header>
 	<div id="page">
@@ -51,6 +51,24 @@ const { seo } = Astro.props as Props;
 		color: var(--theme-text-secondary);
 		font-size: 0.75rem;
 		letter-spacing: 1px;
+		font-family: var(--theme-font-family-sans);
+	}
+
+	/* Header transparente para casar com o hero */
+	:global(#odysseyNavHeader) {
+		background: transparent !important;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 50;
+		border-bottom: none !important;
+		box-shadow: none !important;
+	}
+
+	/* Empurra o conteúdo da página para baixo do header absoluto */
+	#page {
+		padding-top: 0;
 	}
 	
 	@media (max-width: 600px) {
