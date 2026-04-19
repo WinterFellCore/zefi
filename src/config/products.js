@@ -11,7 +11,8 @@ export const products = [
 		],
 		price: 60.00,
 		currency: 'BRL',
-		popular: false
+		popular: false,
+		characterImage: 'https://www.pngarts.com/files/12/Garena-Free-Fire-Video-Game-PNG-Photo.png'
 	},
 	{
 		id: 'zfi-uefi',
@@ -24,7 +25,8 @@ export const products = [
 		],
 		price: 100.00,
 		currency: 'BRL',
-		popular: true
+		popular: true,
+		characterImage: 'https://www.pngarts.com/files/12/Garena-Free-Fire-Video-Game-Transparent-Image.png'
 	},
 	{
 		id: 'zfi-internal',
@@ -37,6 +39,7 @@ export const products = [
 		],
 		price: 80.00,
 		currency: 'BRL',
-		popular: false
+		popular: false,
+		characterImage: 'https://www.pngarts.com/files/12/Garena-Free-Fire-PNG-Image-Background.png'
 	}
 ];

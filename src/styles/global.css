@@ -13,6 +13,11 @@ body {
 	background-color: var(--theme-bg);
 	position: relative;
 	overflow-x: hidden;
+	/* Textura sutil de grade para dar profundidade */
+	background-image:
+		linear-gradient(rgba(255, 77, 166, 0.025) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(255, 77, 166, 0.025) 1px, transparent 1px);
+	background-size: 60px 60px;
 }
 
 pre {
@@ -23,4 +28,28 @@ pre {
 
 pre .language-id {
   display: none;
+}
+
+/* Scrollbar customizada */
+::-webkit-scrollbar {
+	width: 6px;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--theme-bg);
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--theme-border-color, #333);
+	border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--theme-primary);
+}
+
+/* Seleção de texto */
+::selection {
+	background: rgba(255, 77, 166, 0.3);
+	color: white;
 }

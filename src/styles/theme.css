@@ -33,10 +33,8 @@
 	--theme-blog-post-header-width: 1200px;
 
 	/* Theme Fonts */
-	--theme-font-family-serif: 'Roboto Serif', Georgia, Cambria, 'Times New Roman',
-		Times, serif;
-	--theme-font-family-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial,
-		sans-serif;
+	--theme-font-family-serif: 'Rajdhani', 'Segoe UI', Arial, sans-serif;
+	--theme-font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
 }
 
 [data-theme='default'] {

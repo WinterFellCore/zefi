@@ -6,9 +6,10 @@ export interface Props {
 	price: number;
 	currency?: string;
 	popular?: boolean;
+	characterImage?: string;
 }
 
-const { name, description, features, price, currency = 'BRL', popular = false } = Astro.props;
+const { name, description, features, price, currency = 'BRL', popular = false, characterImage } = Astro.props;
 
 const formatPrice = (value: number, curr: string) => {
 	return new Intl.NumberFormat('pt-BR', {
@@ -19,148 +20,277 @@ const formatPrice = (value: number, curr: string) => {
 ---
 
 <div class="product-card" class:list={[{ popular }]}>
-	{popular && <div class="popular-badge">POPULAR</div>}
-	<div class="product-header">
-		<h3>{name}</h3>
-		<p class="product-description">{description}</p>
-	</div>
-	
-	<ul class="product-features">
-		{features.map((feature) => (
-			<li>{feature}</li>
-		))}
-	</ul>
-	
-	<div class="product-footer">
-		<div class="price">{formatPrice(price, currency)}<span class="period">/mês</span></div>
-		<button class="buy-button">Comprar Agora</button>
+	{popular && <div class="popular-badge">⚡ POPULAR</div>}
+
+	<!-- Character image decorative -->
+	{characterImage && (
+		<div class="character-wrap" aria-hidden="true">
+			<img src={characterImage} alt="" class="character-img" loading="lazy" />
+		</div>
+	)}
+
+	<div class="card-inner">
+		<div class="product-header">
+			<p class="product-tag">{description}</p>
+			<h3>{name}</h3>
+		</div>
+
+		<ul class="product-features">
+			{features.map((feature) => (
+				<li>
+					<span class="check-icon" aria-hidden="true">✦</span>
+					{feature}
+				</li>
+			))}
+		</ul>
+
+		<div class="product-footer">
+			<div class="price-row">
+				<span class="price">{formatPrice(price, currency)}</span>
+				<span class="period">/mês</span>
+			</div>
+			<button class="buy-button">
+				Comprar Agora
+				<span class="btn-arrow" aria-hidden="true">→</span>
+			</button>
+		</div>
 	</div>
 </div>
 
 <style>
 	.product-card {
 		background: var(--theme-surface-1);
-		border: 1px solid var(--theme-border-color, #1f1f22);
-		border-radius: 8px;
-		padding: 2rem;
+		border: 1px solid var(--theme-border-color, #222);
+		border-radius: 16px;
 		display: flex;
 		flex-direction: column;
-		gap: 1.5rem;
-		transition: all 0.2s ease;
 		position: relative;
 		overflow: hidden;
+		transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+		min-height: 420px;
+	}
+
+	.product-card::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(135deg, rgba(255, 77, 166, 0.04) 0%, transparent 60%);
+		pointer-events: none;
+		border-radius: inherit;
 	}
 
 	.product-card:hover {
-		border-color: var(--theme-primary);
-		transform: translateY(-2px);
+		border-color: rgba(255, 77, 166, 0.5);
+		transform: translateY(-4px);
+		box-shadow: 0 20px 60px rgba(255, 77, 166, 0.12), 0 4px 20px rgba(0,0,0,0.4);
 	}
 
 	.product-card.popular {
-		border-color: var(--theme-primary);
+		border-color: rgba(255, 77, 166, 0.6);
+		box-shadow: 0 0 0 1px rgba(255, 77, 166, 0.2), 0 8px 40px rgba(255, 77, 166, 0.1);
 	}
 
+	.product-card.popular::before {
+		background: linear-gradient(135deg, rgba(255, 77, 166, 0.08) 0%, transparent 60%);
+	}
+
+	/* Character image */
+	.character-wrap {
+		position: absolute;
+		bottom: 0;
+		right: -10px;
+		width: 160px;
+		height: 220px;
+		pointer-events: none;
+		z-index: 1;
+		mask-image: linear-gradient(to top, transparent 0%, black 30%, black 80%, transparent 100%);
+		-webkit-mask-image: linear-gradient(to top, transparent 0%, black 30%, black 80%, transparent 100%);
+	}
+
+	.character-img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		object-position: bottom center;
+		filter: drop-shadow(0 0 20px rgba(255, 77, 166, 0.3));
+		opacity: 0.85;
+		transition: opacity 0.3s ease, transform 0.3s ease;
+	}
+
+	.product-card:hover .character-img {
+		opacity: 1;
+		transform: scale(1.04) translateY(-4px);
+	}
+
+	/* Card inner content */
+	.card-inner {
+		position: relative;
+		z-index: 2;
+		padding: 1.75rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+		flex: 1;
+	}
+
+	/* Popular badge */
 	.popular-badge {
 		position: absolute;
-		top: 1rem;
-		right: 1rem;
-		background: var(--theme-primary);
+		top: 0;
+		left: 0;
+		right: 0;
+		background: linear-gradient(90deg, var(--theme-primary), #c026d3);
 		color: white;
-		padding: 0.25rem 0.75rem;
-		border-radius: 4px;
-		font-size: 0.75rem;
+		padding: 0.35rem 1rem;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 2px;
+		text-transform: uppercase;
+		text-align: center;
+		font-family: var(--theme-font-family-sans);
+		z-index: 3;
+	}
+
+	.product-card.popular .card-inner {
+		padding-top: 2.75rem;
+	}
+
+	/* Header */
+	.product-tag {
+		font-size: 0.7rem;
 		font-weight: 600;
-		letter-spacing: 0.5px;
+		letter-spacing: 2.5px;
+		text-transform: uppercase;
+		color: var(--theme-primary);
+		margin: 0 0 0.4rem 0;
+		font-family: var(--theme-font-family-sans);
 	}
 
 	.product-header h3 {
-		font-size: 1.5rem;
-		margin-bottom: 0.5rem;
-		color: var(--theme-on-bg);
-		font-weight: 600;
-	}
-
-	.product-description {
-		font-size: 0.875rem;
-		color: var(--theme-text-secondary, #aaa);
+		font-size: clamp(1.6rem, 3vw, 2rem);
 		margin: 0;
+		color: var(--theme-on-bg);
+		font-weight: 700;
+		line-height: 1;
+		letter-spacing: 1px;
+		font-family: var(--theme-font-family-serif);
+		text-transform: uppercase;
 	}
 
+	/* Features */
 	.product-features {
 		list-style: none;
 		padding: 0;
 		margin: 0;
 		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
 	}
 
 	.product-features li {
-		font-size: 0.875rem;
+		font-size: 0.82rem;
 		color: var(--theme-text-secondary, #aaa);
-		line-height: 1.8;
-		padding-left: 1.5rem;
-		position: relative;
+		line-height: 1.5;
+		display: flex;
+		align-items: flex-start;
+		gap: 0.5rem;
+		font-family: var(--theme-font-family-sans);
+		font-weight: 400;
 	}
 
-	.product-features li::before {
-		content: '✓';
-		position: absolute;
-		left: 0;
+	.check-icon {
 		color: var(--theme-primary);
-		font-weight: bold;
+		font-size: 0.6rem;
+		margin-top: 0.3rem;
+		flex-shrink: 0;
 	}
 
+	/* Footer */
 	.product-footer {
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
-		padding-top: 1rem;
-		border-top: 1px solid var(--theme-border-color, #1f1f22);
+		gap: 0.875rem;
+		padding-top: 1.25rem;
+		border-top: 1px solid var(--theme-border-color, #222);
+		margin-right: 120px; /* espaço para o personagem */
+	}
+
+	.price-row {
+		display: flex;
+		align-items: baseline;
+		gap: 0.25rem;
 	}
 
 	.price {
-		font-size: 1.75rem;
+		font-size: 1.9rem;
 		font-weight: 700;
 		color: var(--theme-on-bg);
+		font-family: var(--theme-font-family-serif);
+		letter-spacing: 0;
 	}
 
 	.period {
-		font-size: 1rem;
-		font-weight: normal;
+		font-size: 0.85rem;
+		font-weight: 400;
 		color: var(--theme-text-secondary, #aaa);
+		font-family: var(--theme-font-family-sans);
 	}
 
 	.buy-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
 		width: 100%;
-		padding: 0.875rem 1.5rem;
-		background: var(--theme-primary);
+		padding: 0.8rem 1.25rem;
+		background: linear-gradient(135deg, var(--theme-primary), #c026d3);
 		color: white;
 		border: none;
-		border-radius: 6px;
-		font-size: 1rem;
-		font-weight: 600;
+		border-radius: 8px;
+		font-size: 0.85rem;
+		font-weight: 700;
+		letter-spacing: 1px;
+		text-transform: uppercase;
 		cursor: pointer;
 		transition: all 0.2s ease;
+		font-family: var(--theme-font-family-sans);
 	}
 
 	.buy-button:hover {
-		background: var(--theme-primary-hover, #ff2d95);
+		filter: brightness(1.15);
+		transform: translateY(-1px);
+		box-shadow: 0 6px 20px rgba(255, 77, 166, 0.35);
 	}
 
 	.buy-button:active {
 		transform: scale(0.98);
 	}
 
+	.btn-arrow {
+		transition: transform 0.2s ease;
+	}
+
+	.buy-button:hover .btn-arrow {
+		transform: translateX(3px);
+	}
+
 	@media (max-width: 768px) {
-		.product-card {
+		.character-wrap {
+			width: 120px;
+			height: 170px;
+		}
+
+		.product-footer {
+			margin-right: 90px;
+		}
+
+		.card-inner {
 			padding: 1.5rem;
 		}
 
-		.product-header h3 {
-			font-size: 1.25rem;
-		}
-
 		.price {
-			font-size: 1.5rem;
+			font-size: 1.6rem;
 		}
 	}
 </style>

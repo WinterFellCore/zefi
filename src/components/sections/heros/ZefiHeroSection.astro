@@ -3,12 +3,26 @@ import { Container } from '@components/odyssey-theme';
 ---
 
 <section class="zefi-hero">
+	<!-- Glow decorativo de fundo -->
+	<div class="hero-glow hero-glow--left" aria-hidden="true"></div>
+	<div class="hero-glow hero-glow--right" aria-hidden="true"></div>
+
 	<Container>
 		<div class="hero-content">
-			<h1 class="hero-title">Performance sem limites</h1>
-			<p class="hero-subtitle">Produtos premium para Free Fire com tecnologia de ponta</p>
+			<p class="hero-eyebrow">Free Fire · Performance · Tecnologia</p>
+			<h1 class="hero-title">
+				Performance<br />
+				<span class="hero-title--accent">sem limites</span>
+			</h1>
+			<p class="hero-subtitle">
+				Produtos premium para Free Fire com tecnologia de ponta.<br />
+				Controle total. Resultados reais.
+			</p>
 			<div class="hero-cta">
-				<a href="#produtos" class="cta-button">Ver Produtos</a>
+				<a href="#produtos" class="cta-button cta-button--primary">
+					Ver Produtos
+					<span aria-hidden="true">↓</span>
+				</a>
 			</div>
 		</div>
 	</Container>
@@ -16,77 +30,130 @@ import { Container } from '@components/odyssey-theme';
 
 <style>
 	.zefi-hero {
-		min-height: 70vh;
+		min-height: 72vh;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		position: relative;
 		background: var(--theme-bg);
-		padding: 4rem 0;
+		padding: 5rem 0 4rem;
+		overflow: hidden;
+	}
+
+	/* Glows de fundo */
+	.hero-glow {
+		position: absolute;
+		width: 500px;
+		height: 500px;
+		border-radius: 50%;
+		filter: blur(120px);
+		pointer-events: none;
+		z-index: 0;
+	}
+
+	.hero-glow--left {
+		background: rgba(255, 77, 166, 0.08);
+		top: -100px;
+		left: -150px;
+	}
+
+	.hero-glow--right {
+		background: rgba(192, 38, 211, 0.06);
+		bottom: -100px;
+		right: -150px;
 	}
 
 	.hero-content {
 		position: relative;
 		z-index: 1;
 		text-align: center;
-		max-width: 800px;
+		max-width: 760px;
 		margin: 0 auto;
 	}
 
+	.hero-eyebrow {
+		font-size: 0.72rem;
+		font-weight: 600;
+		letter-spacing: 3px;
+		text-transform: uppercase;
+		color: var(--theme-primary);
+		margin: 0 0 1.25rem 0;
+		font-family: var(--theme-font-family-sans);
+	}
+
 	.hero-title {
-		font-size: clamp(2.5rem, 6vw, 4rem);
+		font-size: clamp(3rem, 8vw, 5.5rem);
 		font-weight: 700;
 		color: var(--theme-on-bg);
 		margin: 0 0 1.5rem 0;
-		line-height: 1.2;
-		letter-spacing: -0.02em;
+		line-height: 1;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+		font-family: var(--theme-font-family-serif);
+	}
+
+	.hero-title--accent {
+		background: linear-gradient(135deg, var(--theme-primary), #c026d3);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
 	}
 
 	.hero-subtitle {
-		font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+		font-size: clamp(0.95rem, 2vw, 1.15rem);
 		color: var(--theme-text-secondary);
 		margin: 0 0 2.5rem 0;
-		line-height: 1.6;
+		line-height: 1.7;
 		font-weight: 400;
+		font-family: var(--theme-font-family-sans);
 	}
 
 	.hero-cta {
-		margin-top: 2rem;
+		display: flex;
+		gap: 1rem;
+		justify-content: center;
+		flex-wrap: wrap;
 	}
 
 	.cta-button {
-		display: inline-block;
-		padding: 1rem 2.5rem;
-		background: var(--theme-primary);
-		color: white;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.9rem 2.25rem;
 		text-decoration: none;
-		border-radius: 6px;
-		font-size: 1rem;
-		font-weight: 600;
+		border-radius: 8px;
+		font-size: 0.85rem;
+		font-weight: 700;
+		letter-spacing: 1.5px;
+		text-transform: uppercase;
 		transition: all 0.2s ease;
+		font-family: var(--theme-font-family-sans);
 	}
 
-	.cta-button:hover {
-		background: var(--theme-primary-hover);
+	.cta-button--primary {
+		background: linear-gradient(135deg, var(--theme-primary), #c026d3);
+		color: white;
+		box-shadow: 0 4px 20px rgba(255, 77, 166, 0.25);
+	}
+
+	.cta-button--primary:hover {
+		filter: brightness(1.12);
 		transform: translateY(-2px);
+		box-shadow: 0 8px 30px rgba(255, 77, 166, 0.4);
 	}
 
 	@media (max-width: 768px) {
 		.zefi-hero {
 			min-height: 60vh;
-			padding: 3rem 0;
+			padding: 4rem 0 3rem;
 		}
 
 		.hero-title {
-			font-size: 2rem;
+			font-size: clamp(2.5rem, 10vw, 3.5rem);
 		}
 
 		.hero-subtitle {
-			font-size: 1.125rem;
-		}
-
-		.cta-button {
-			padding: 0.875rem 2rem;
+			font-size: 0.95rem;
 		}
 	}
 </style>

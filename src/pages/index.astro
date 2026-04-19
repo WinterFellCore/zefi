@@ -12,6 +12,7 @@ import { products } from '../config/products.js';
 	<Container>
 		<section class="products-section" id="produtos">
 			<div class="section-header">
+				<p class="section-eyebrow">Escolha seu plano</p>
 				<h2>Nossos Produtos</h2>
 				<p class="pricing-note">* Todos os preços são mensais</p>
 			</div>
@@ -25,6 +26,7 @@ import { products } from '../config/products.js';
 						price={product.price}
 						currency={product.currency}
 						popular={product.popular}
+						characterImage={product.characterImage}
 					/>
 				))}
 			</div>
@@ -52,9 +54,19 @@ import { products } from '../config/products.js';
 		margin-bottom: 3rem;
 	}
 
+	.section-eyebrow {
+		font-size: 0.72rem;
+		font-weight: 600;
+		letter-spacing: 3px;
+		text-transform: uppercase;
+		color: var(--theme-primary);
+		margin: 0 0 0.75rem 0;
+		font-family: var(--theme-font-family-sans, sans-serif);
+	}
+
 	.section-header h2 {
 		font-size: clamp(2rem, 5vw, 3rem);
-		margin-bottom: 1rem;
+		margin-bottom: 0.75rem;
 		color: var(--theme-on-bg);
 	}
 
