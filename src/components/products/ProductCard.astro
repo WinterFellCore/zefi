@@ -55,7 +55,7 @@ const formatPrice = (value: number, curr: string) => {
 				<span class="price">{formatPrice(price, currency)}</span>
 				<span class="period">/mês</span>
 			</div>
-			<button class="buy-button">Comprar Agora</button>
+			<a href="https://discord.gg/jsymg94sXB" target="_blank" rel="noopener noreferrer" class="buy-button">Ver no Discord</a>
 		</div>
 	</div>
 </div>
@@ -220,6 +220,9 @@ const formatPrice = (value: number, curr: string) => {
 	}
 
 	.buy-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		width: 100%;
 		padding: 0.875rem;
 		background: var(--theme-primary);
@@ -230,6 +233,7 @@ const formatPrice = (value: number, curr: string) => {
 		font-weight: 700;
 		letter-spacing: 1px;
 		text-transform: uppercase;
+		text-decoration: none;
 		cursor: pointer;
 		transition: background 0.2s ease, transform 0.15s ease;
 		font-family: var(--theme-font-family-sans);

@@ -7,4 +7,8 @@ export const nav = [
 		title: 'Produtos',
 		slug: '/#produtos',
 	},
+	{
+		title: 'Discord',
+		slug: 'https://discord.gg/jsymg94sXB',
+	},
 ];
