@@ -1,7 +1,7 @@
 :root {
-	/* Theme Colors - ZEFI Clean Theme */
-	--theme-primary: #ff4da6;
-	--theme-primary-hover: #ff2d95;
+	/* Theme Colors - ZEFI Orange Theme */
+	--theme-primary: #ff6b1a;
+	--theme-primary-hover: #ff5500;
 	--theme-on-primary: #fff;
 
 	--theme-bg: #0a0a0a;
@@ -39,9 +39,9 @@
 
 [data-theme='default'] {
 	color-scheme: dark;
-	/* Theme Colors - ZEFI Clean Theme */
-	--theme-primary: #ff4da6;
-	--theme-primary-hover: #ff2d95;
+	/* Theme Colors - ZEFI Orange Theme */
+	--theme-primary: #ff6b1a;
+	--theme-primary-hover: #ff5500;
 	--theme-on-primary: #fff;
 
 	--theme-bg: #0a0a0a;
@@ -76,8 +76,8 @@
 [data-theme='dark'] {
 	color-scheme: dark;
 	/* Same as default for ZEFI */
-	--theme-primary: #ff4da6;
-	--theme-primary-hover: #ff2d95;
+	--theme-primary: #ff6b1a;
+	--theme-primary-hover: #ff5500;
 	--theme-on-primary: #fff;
 
 	--theme-bg: #0a0a0a;
