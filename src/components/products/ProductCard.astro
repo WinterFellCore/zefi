@@ -90,13 +90,10 @@ const formatPrice = (value: number, curr: string) => {
 		display: flex;
 		align-items: flex-end;
 		justify-content: space-between;
-		/* altura fixa para o personagem ter espaço consistente */
-		height: 200px;
+		height: 280px;
 		padding: 1.5rem 0 0 1.75rem;
 		position: relative;
-		overflow: hidden;
-		/* gradiente sutil de fundo na área do personagem */
-		background: linear-gradient(135deg, transparent 40%, rgba(255,77,166,0.04) 100%);
+		overflow: visible;
 	}
 
 	.card-top-left {
@@ -138,18 +135,9 @@ const formatPrice = (value: number, curr: string) => {
 		position: absolute;
 		right: 0;
 		bottom: 0;
-		width: 200px;
-		height: 200px;
+		width: 260px;
+		height: 280px;
 		z-index: 1;
-		/* fade lateral esquerda e topo */
-		mask-image:
-			linear-gradient(to left, black 55%, transparent 100%),
-			linear-gradient(to bottom, transparent 0%, black 30%);
-		-webkit-mask-image:
-			linear-gradient(to left, black 55%, transparent 100%),
-			linear-gradient(to bottom, transparent 0%, black 30%);
-		mask-composite: intersect;
-		-webkit-mask-composite: source-in;
 	}
 
 	.character-img {
@@ -157,13 +145,12 @@ const formatPrice = (value: number, curr: string) => {
 		height: 100%;
 		object-fit: contain;
 		object-position: bottom right;
-		opacity: 0.9;
-		transition: transform 0.35s ease, opacity 0.25s ease;
+		opacity: 1;
+		transition: transform 0.35s ease;
 	}
 
 	.product-card:hover .character-img {
-		opacity: 1;
-		transform: scale(1.06) translateY(-6px);
+		transform: scale(1.05) translateY(-6px);
 	}
 
 	/* ── Conteúdo ── */
@@ -268,12 +255,12 @@ const formatPrice = (value: number, curr: string) => {
 	/* ── Responsivo ── */
 	@media (max-width: 768px) {
 		.card-top {
-			height: 160px;
+			height: 220px;
 		}
 
 		.character-wrap {
-			width: 160px;
-			height: 160px;
+			width: 200px;
+			height: 220px;
 		}
 
 		.product-name {
