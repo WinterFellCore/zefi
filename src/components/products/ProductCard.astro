@@ -105,6 +105,7 @@ const formatPrice = (value: number, curr: string) => {
 		justify-content: flex-end;
 		gap: 0.4rem;
 		z-index: 2;
+		position: relative;
 		padding-bottom: 1rem;
 	}
 
@@ -137,11 +138,10 @@ const formatPrice = (value: number, curr: string) => {
 	.character-wrap {
 		position: absolute;
 		right: 8px;
-		/* negativo = sobe acima da borda do card */
 		top: -80px;
 		width: 300px;
 		height: 380px;
-		z-index: 10;
+		z-index: 0; /* atrás do texto */
 		pointer-events: none;
 	}
 
@@ -160,6 +160,8 @@ const formatPrice = (value: number, curr: string) => {
 
 	/* ── Conteúdo ── */
 	.card-inner {
+		position: relative;
+		z-index: 2;
 		padding: 0 1.75rem 1.75rem;
 		display: flex;
 		flex-direction: column;
