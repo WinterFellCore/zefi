@@ -86,16 +86,13 @@ const formatPrice = (value: number, curr: string) => {
 		box-shadow: 0 12px 48px rgba(255, 77, 166, 0.13);
 	}
 
-	/* ── Personagem: relativo ao card, centralizado, vaza pra cima ── */
+	/* ── Personagem: relativo ao card, lado direito, vaza pra cima ── */
 	.character-wrap {
 		position: absolute;
-		/* centraliza horizontalmente */
-		left: 50%;
-		transform: translateX(-50%);
-		/* vaza bem pra cima */
-		top: -160px;
-		width: 280px;
-		height: 360px;
+		right: 10px;
+		top: -220px;
+		width: 260px;
+		height: 340px;
 		z-index: 0;
 		pointer-events: none;
 	}
@@ -104,13 +101,13 @@ const formatPrice = (value: number, curr: string) => {
 		width: 100%;
 		height: 100%;
 		object-fit: contain;
-		object-position: bottom center;
+		object-position: bottom right;
 		opacity: 1;
 		transition: transform 0.35s ease;
 	}
 
 	.product-card:hover .character-img {
-		transform: translateX(-50%) scale(1.05) translateY(-8px);
+		transform: scale(1.05) translateY(-8px);
 	}
 
 	/* ── Conteúdo ── */
@@ -128,6 +125,7 @@ const formatPrice = (value: number, curr: string) => {
 		display: flex;
 		flex-direction: column;
 		gap: 0.3rem;
+		padding-right: 150px;
 	}
 
 	/* ── Popular badge ── */
@@ -164,6 +162,7 @@ const formatPrice = (value: number, curr: string) => {
 		letter-spacing: 1px;
 		font-family: var(--theme-font-family-serif);
 		text-transform: uppercase;
+		padding-right: 150px;
 	}
 
 	/* ── Features ── */
