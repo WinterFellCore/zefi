@@ -20,7 +20,7 @@
 		"@astrojs/lit": "^4.0.1",
 		"@astrojs/mdx": "^2.1.1",
 		"@astrojs/sitemap": "^0.1.0",
-		"@astrojs/vercel": "^7.0.0",
+		"@astrojs/vercel": "^8.0.0",
 		"@iconify-json/ic": "^1.1.17",
 		"@iconify-json/mdi": "^1.1.64",
 		"@webcomponents/template-shadowroot": "^0.2.1",

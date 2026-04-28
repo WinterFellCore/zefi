@@ -11,5 +11,9 @@ export default defineConfig({
   sitemap: true,
   integrations: [sitemap(), mdx(), lit(), icon()],
   output: 'hybrid',
-  adapter: vercel(),
+  adapter: vercel({
+    webAnalytics: {
+      enabled: false
+    }
+  }),
 });
