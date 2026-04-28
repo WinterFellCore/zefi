@@ -109,6 +109,7 @@
     font-weight: 600;
     color: var(--theme-on-primary);
     flex-shrink: 0;
+    overflow: hidden;
   }
 
   .profile-avatar img {
@@ -375,7 +376,8 @@
   // Carregar downloads
   async function loadDownloads() {
     try {
-      const response = await fetch('/api/downloads', {
+      // Adiciona timestamp para evitar cache
+      const response = await fetch(`/api/downloads?t=${Date.now()}`, {
         headers: {
           'Authorization': `Bearer ${authToken}`
         }
@@ -392,8 +394,10 @@
       }
     } catch (error) {
       console.error('Error loading downloads:', error);
-      // Mostrar downloads padrão se a API falhar
-      renderDefaultDownloads();
+      // Mostrar mensagem de erro
+      if (downloadsGrid) {
+        downloadsGrid.innerHTML = '<p style="color: var(--theme-text-secondary); text-align: center; padding: 2rem;">Erro ao carregar downloads. Tente novamente mais tarde.</p>';
+      }
     }
   }
 
@@ -427,29 +431,6 @@
         </a>
       </div>
     `).join('');
-  }
-
-  function renderDefaultDownloads() {
-    // Downloads padrão (você vai substituir pelos seus links)
-    const defaultDownloads = [
-      {
-        name: 'ZEFI Loader',
-        description: 'Loader principal do ZEFI. Versão mais recente com todas as features.',
-        url: '#' // Substitua pelo seu link
-      },
-      {
-        name: 'ZEFI Config',
-        description: 'Arquivo de configuração padrão para começar a usar.',
-        url: '#' // Substitua pelo seu link
-      },
-      {
-        name: 'Documentação',
-        description: 'Guia completo de instalação e uso do ZEFI.',
-        url: '#' // Substitua pelo seu link
-      }
-    ];
-
-    renderDownloads(defaultDownloads);
   }
 
   // Carregar downloads ao iniciar
