@@ -1,5 +1,19 @@
 # Deploy no Vercel - Instruções
 
+## ⚠️ IMPORTANTE: Node.js 20+
+
+Este projeto requer Node.js 20 ou superior. Certifique-se de ter a versão correta instalada:
+
+```bash
+node --version
+# Deve mostrar v20.x.x ou superior
+```
+
+Se precisar atualizar o Node.js:
+- Windows: Baixe em https://nodejs.org/
+- Mac: `brew install node@20`
+- Linux: `nvm install 20`
+
 ## 🔧 Passo 1: Instalar dependências
 
 Antes de fazer o deploy, você precisa instalar o adaptador Vercel:

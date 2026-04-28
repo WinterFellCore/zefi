@@ -11,5 +11,7 @@ export default defineConfig({
   sitemap: true, // Generate sitemap (set to "false" to disable)
   integrations: [sitemap(), mdx(), lit(), icon()], // Add renderers to the config
   output: 'hybrid', // Habilita SSR para rotas de API
-  adapter: vercel(), // Adaptador Vercel para deploy
+  adapter: vercel({
+    runtime: 'nodejs20.x'
+  }), // Adaptador Vercel para deploy
 });

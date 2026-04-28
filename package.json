@@ -6,6 +6,9 @@
 		"type": "git",
 		"url": "git@github.com:treefarmstudio/odyssey-theme"
 	},
+	"engines": {
+		"node": ">=20.0.0"
+	},
 	"scripts": {
 		"dev": "astro dev",
 		"start": "astro dev",
