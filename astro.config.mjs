@@ -10,6 +10,6 @@ export default defineConfig({
   site: 'https://odyssey-theme.sapling.supply/',
   sitemap: true,
   integrations: [sitemap(), mdx(), lit(), icon()],
-  output: 'hybrid',
+  output: 'server',
   adapter: vercel(),
 });

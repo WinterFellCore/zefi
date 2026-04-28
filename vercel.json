@@ -1,3 +1,5 @@
 {
-  "buildCommand": "npm run build"
+  "framework": "astro",
+  "buildCommand": "npm run build",
+  "installCommand": "npm install"
 }
