@@ -7,14 +7,15 @@
 		"url": "git@github.com:treefarmstudio/odyssey-theme"
 	},
 	"engines": {
-		"node": ">=20.0.0"
+		"node": "20.x"
 	},
 	"scripts": {
 		"dev": "astro dev",
 		"start": "astro dev",
 		"build": "astro build",
 		"preview": "astro preview",
-		"format": "npx prettier -w ."
+		"format": "npx prettier -w .",
+		"vercel-build": "astro build"
 	},
 	"devDependencies": {
 		"@astrojs/lit": "^4.0.1",
