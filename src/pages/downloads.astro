@@ -1,0 +1,374 @@
+---
+import Layout from '../layouts/Page.astro';
+import { Container } from '../components/odyssey-theme';
+---
+
+<Layout>
+  <Container>
+    <div class="downloads-container">
+      <div class="user-profile" id="userProfile" style="display: none;">
+        <div class="profile-avatar" id="profileAvatar"></div>
+        <div class="profile-info">
+          <h2 id="profileName">Carregando...</h2>
+          <p id="profileExpiry">Verificando acesso...</p>
+        </div>
+        <button class="logout-button" id="logoutButton">Sair</button>
+      </div>
+
+      <div class="downloads-header">
+        <h1>Downloads</h1>
+        <p>Seus arquivos disponíveis para download</p>
+      </div>
+
+      <div class="downloads-grid" id="downloadsGrid">
+        <!-- Downloads serão carregados aqui -->
+      </div>
+
+      <div class="no-access" id="noAccess" style="display: none;">
+        <div class="no-access-icon">🔒</div>
+        <h2>Acesso Negado</h2>
+        <p>Você não tem permissão para acessar esta área.</p>
+        <a href="/login" class="back-button">Voltar ao Login</a>
+      </div>
+    </div>
+  </Container>
+</Layout>
+
+<style>
+  .downloads-container {
+    min-height: 80vh;
+    padding: 2rem 0;
+  }
+
+  .user-profile {
+    background: var(--theme-surface-1);
+    border: 1px solid var(--theme-border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .profile-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--theme-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--theme-on-primary);
+    flex-shrink: 0;
+  }
+
+  .profile-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .profile-info {
+    flex: 1;
+  }
+
+  .profile-info h2 {
+    margin: 0 0 0.25rem 0;
+    color: var(--theme-on-surface-1);
+    font-size: 1.25rem;
+  }
+
+  .profile-info p {
+    margin: 0;
+    color: var(--theme-text-secondary);
+    font-size: 0.9rem;
+  }
+
+  .logout-button {
+    padding: 0.5rem 1.25rem;
+    background: transparent;
+    border: 1px solid var(--theme-border-color);
+    border-radius: 6px;
+    color: var(--theme-on-surface-1);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+  }
+
+  .logout-button:hover {
+    background: var(--theme-surface-2);
+    border-color: var(--theme-primary);
+  }
+
+  .downloads-header {
+    margin-bottom: 2rem;
+  }
+
+  .downloads-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--theme-on-bg);
+  }
+
+  .downloads-header p {
+    color: var(--theme-text-secondary);
+    font-size: 1.1rem;
+  }
+
+  .downloads-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .download-card {
+    background: var(--theme-surface-1);
+    border: 1px solid var(--theme-border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.2s ease;
+  }
+
+  .download-card:hover {
+    border-color: var(--theme-primary);
+    box-shadow: 0 8px 32px rgba(66, 70, 126, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .download-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(66, 70, 126, 0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    color: var(--theme-primary);
+  }
+
+  .download-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .download-card h3 {
+    margin: 0 0 0.5rem 0;
+    color: var(--theme-on-surface-1);
+    font-size: 1.25rem;
+  }
+
+  .download-card p {
+    margin: 0 0 1.5rem 0;
+    color: var(--theme-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .download-button {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--theme-primary);
+    color: var(--theme-on-primary);
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+  }
+
+  .download-button:hover {
+    background: var(--theme-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(66, 70, 126, 0.3);
+  }
+
+  .no-access {
+    text-align: center;
+    padding: 4rem 2rem;
+  }
+
+  .no-access-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+  }
+
+  .no-access h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--theme-on-bg);
+  }
+
+  .no-access p {
+    color: var(--theme-text-secondary);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+  }
+
+  .back-button {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    background: var(--theme-primary);
+    color: var(--theme-on-primary);
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+
+  .back-button:hover {
+    background: var(--theme-primary-hover);
+    transform: translateY(-1px);
+  }
+</style>
+
+<script>
+  // Verificar autenticação
+  const authToken = localStorage.getItem('auth_token');
+  const userData = localStorage.getItem('user_data');
+
+  if (!authToken || !userData) {
+    window.location.href = '/login';
+  }
+
+  const user = JSON.parse(userData || '{}');
+  const userProfile = document.getElementById('userProfile');
+  const profileAvatar = document.getElementById('profileAvatar');
+  const profileName = document.getElementById('profileName');
+  const profileExpiry = document.getElementById('profileExpiry');
+  const downloadsGrid = document.getElementById('downloadsGrid');
+  const noAccess = document.getElementById('noAccess');
+  const logoutButton = document.getElementById('logoutButton');
+
+  // Mostrar perfil do usuário
+  if (userProfile && profileAvatar && profileName && profileExpiry) {
+    userProfile.style.display = 'flex';
+    
+    // Avatar
+    if (user.avatar_url) {
+      profileAvatar.innerHTML = `<img src="${user.avatar_url}" alt="Avatar" />`;
+    } else {
+      const initial = (user.global_name || user.username || user.discord_id || '?')[0].toUpperCase();
+      profileAvatar.textContent = initial;
+    }
+
+    // Nome
+    profileName.textContent = user.global_name || user.username || `User ${user.discord_id}`;
+
+    // Expiração
+    if (user.expires_at) {
+      const expiryDate = new Date(user.expires_at);
+      const now = new Date();
+      const daysRemaining = Math.ceil((expiryDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+      
+      if (daysRemaining < 0) {
+        profileExpiry.textContent = 'Acesso expirado';
+        profileExpiry.style.color = '#ef4444';
+      } else if (daysRemaining >= 365) {
+        profileExpiry.textContent = 'Acesso vitalício';
+      } else if (daysRemaining >= 30) {
+        profileExpiry.textContent = `Acesso válido por ${Math.floor(daysRemaining / 30)} meses`;
+      } else {
+        profileExpiry.textContent = `Acesso válido por ${daysRemaining} dias`;
+      }
+    } else {
+      profileExpiry.textContent = 'Acesso vitalício';
+    }
+  }
+
+  // Logout
+  if (logoutButton) {
+    logoutButton.addEventListener('click', () => {
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('user_data');
+      localStorage.removeItem('discord_id');
+      window.location.href = '/login';
+    });
+  }
+
+  // Carregar downloads
+  async function loadDownloads() {
+    try {
+      const response = await fetch('/api/downloads', {
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+      });
+
+      const data = await response.json();
+
+      if (data.success && data.downloads && data.downloads.length > 0) {
+        renderDownloads(data.downloads);
+      } else {
+        // Mostrar mensagem de sem acesso
+        if (downloadsGrid) downloadsGrid.style.display = 'none';
+        if (noAccess) noAccess.style.display = 'block';
+      }
+    } catch (error) {
+      console.error('Error loading downloads:', error);
+      // Mostrar downloads padrão se a API falhar
+      renderDefaultDownloads();
+    }
+  }
+
+  function renderDownloads(downloads: any[]) {
+    if (!downloadsGrid) return;
+
+    downloadsGrid.innerHTML = downloads.map(download => `
+      <div class="download-card">
+        <div class="download-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+          </svg>
+        </div>
+        <h3>${download.name}</h3>
+        <p>${download.description}</p>
+        <a href="${download.url}" class="download-button" download>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Download
+        </a>
+      </div>
+    `).join('');
+  }
+
+  function renderDefaultDownloads() {
+    // Downloads padrão (você vai substituir pelos seus links)
+    const defaultDownloads = [
+      {
+        name: 'ZEFI Loader',
+        description: 'Loader principal do ZEFI. Versão mais recente com todas as features.',
+        url: '#' // Substitua pelo seu link
+      },
+      {
+        name: 'ZEFI Config',
+        description: 'Arquivo de configuração padrão para começar a usar.',
+        url: '#' // Substitua pelo seu link
+      },
+      {
+        name: 'Documentação',
+        description: 'Guia completo de instalação e uso do ZEFI.',
+        url: '#' // Substitua pelo seu link
+      }
+    ];
+
+    renderDownloads(defaultDownloads);
+  }
+
+  // Carregar downloads ao iniciar
+  loadDownloads();
+</script>
+
