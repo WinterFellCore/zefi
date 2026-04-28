@@ -2,28 +2,22 @@
 
 const DOWNLOADS = [
   {
-    id: 'loader',
-    name: 'ZEFI Loader',
-    description: 'Loader principal do ZEFI. Versão mais recente com todas as features.',
-    url: 'https://seu-link-aqui.com/zefi-loader.zip',
-    version: '1.0.0',
-    size: '2.5 MB',
+    id: 'ff-max-x86',
+    name: 'Free Fire MAX X86',
+    description: 'Free Fire MAX para dispositivos x86 - OB53. Compatível com emuladores e dispositivos Intel.',
+    url: 'https://www.mediafire.com/file/669xh6lc1rjfsl8/Free_Fire_MAX_X86_OB53_%25281%2529.xapk/file',
+    image: 'https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/41/b5/1c/41b51c10-c3df-b309-de20-f3aa04b9d0d5/Placeholder.mill/400x400bb.webp',
+    version: 'OB53',
+    size: '~800 MB',
   },
   {
-    id: 'config',
-    name: 'ZEFI Config',
-    description: 'Arquivo de configuração padrão para começar a usar.',
-    url: 'https://seu-link-aqui.com/zefi-config.json',
-    version: '1.0.0',
-    size: '15 KB',
-  },
-  {
-    id: 'docs',
-    name: 'Documentação',
-    description: 'Guia completo de instalação e uso do ZEFI.',
-    url: 'https://seu-link-aqui.com/zefi-docs.pdf',
-    version: '1.0.0',
-    size: '1.2 MB',
+    id: 'ff-v7a',
+    name: 'Free Fire V7A',
+    description: 'Free Fire para dispositivos ARM64-v8a - OB53. Versão otimizada para smartphones Android.',
+    url: 'https://download2288.mediafire.com/gq9kewctgczgLLk8_A5LSRll_HzggZEd0zX3XiQNt-S98BCs6qHEoIp1Rq65LQJf350QFCIYFh9I1g9SAh3ajFuCbMUYHwspzcaOI3fDkq2ASymWVD0bcyPbX8er9TutuuB2t8ZS4fEcRROi2mfahO8Y_Oivw5vUlgch-aJkXPY0rOY/xpqrafanwfhwsgt/Free+fire+V7A+OB53+%281%29.xapk',
+    image: 'https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/41/b5/1c/41b51c10-c3df-b309-de20-f3aa04b9d0d5/Placeholder.mill/400x400bb.webp',
+    version: 'OB53',
+    size: '~700 MB',
   },
 ];
 
