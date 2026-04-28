@@ -7,11 +7,9 @@ import vercel from "@astrojs/vercel/serverless";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://odyssey-theme.sapling.supply/', // Your public domain, e.g.: https://my-site.dev/. Used to generate sitemaps and canonical URLs.
-  sitemap: true, // Generate sitemap (set to "false" to disable)
-  integrations: [sitemap(), mdx(), lit(), icon()], // Add renderers to the config
-  output: 'hybrid', // Habilita SSR para rotas de API
-  adapter: vercel({
-    runtime: 'nodejs20.x'
-  }), // Adaptador Vercel para deploy
+  site: 'https://odyssey-theme.sapling.supply/',
+  sitemap: true,
+  integrations: [sitemap(), mdx(), lit(), icon()],
+  output: 'hybrid',
+  adapter: vercel(),
 });
