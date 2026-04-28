@@ -6,6 +6,9 @@ package-lock.json
 dist/
 .astro/
 
+# Vercel
+.vercel
+
 # Environment variables
 .env
 .env.local
