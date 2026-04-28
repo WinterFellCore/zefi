@@ -25,26 +25,26 @@ pre .language-id {
   display: none;
 }
 
-/* Scrollbar customizada */
+/* Scrollbar customizada - X86 Style */
 ::-webkit-scrollbar {
 	width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-	background: var(--theme-bg);
+	background: #1b191d;
 }
 
 ::-webkit-scrollbar-thumb {
-	background: var(--theme-border-color, #333);
+	background: #42467e;
 	border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-	background: var(--theme-primary);
+	background: #5458a0;
 }
 
-/* Seleção de texto */
+/* Seleção de texto - X86 Style */
 ::selection {
-	background: rgba(255, 77, 166, 0.3);
-	color: white;
+	background: rgba(66, 70, 126, 0.4);
+	color: #b0afb0;
 }

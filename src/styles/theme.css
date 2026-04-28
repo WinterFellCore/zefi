@@ -1,20 +1,20 @@
 :root {
-	/* Theme Colors - ZEFI Orange Theme */
-	--theme-primary: #ff6b1a;
-	--theme-primary-hover: #ff5500;
+	/* Theme Colors - X86 Menu Style */
+	--theme-primary: #42467e;
+	--theme-primary-hover: #5458a0;
 	--theme-on-primary: #fff;
 
-	--theme-bg: #0a0a0a;
-	--theme-on-bg: #ffffff;
+	--theme-bg: #1b191d;
+	--theme-on-bg: #b0afb0;
 
-	--theme-surface-1: #141414;
-	--theme-on-surface-1: #ffffff;
+	--theme-surface-1: #1f1d21;
+	--theme-on-surface-1: #b0afb0;
 
-	--theme-surface-2: #1a1a1a;
-	--theme-on-surface-2: #ffffff;
+	--theme-surface-2: #232127;
+	--theme-on-surface-2: #b0afb0;
 
-	--theme-text-secondary: #999;
-	--theme-border-color: #222;
+	--theme-text-secondary: #454349;
+	--theme-border-color: #222224;
 
 	/* Theme Shapes */
 	--theme-shape-radius: 8px;
@@ -39,22 +39,22 @@
 
 [data-theme='default'] {
 	color-scheme: dark;
-	/* Theme Colors - ZEFI Orange Theme */
-	--theme-primary: #ff6b1a;
-	--theme-primary-hover: #ff5500;
+	/* Theme Colors - X86 Menu Style */
+	--theme-primary: #42467e;
+	--theme-primary-hover: #5458a0;
 	--theme-on-primary: #fff;
 
-	--theme-bg: #0a0a0a;
-	--theme-on-bg: #ffffff;
+	--theme-bg: #1b191d;
+	--theme-on-bg: #b0afb0;
 
-	--theme-surface-1: #141414;
-	--theme-on-surface-1: #ffffff;
+	--theme-surface-1: #1f1d21;
+	--theme-on-surface-1: #b0afb0;
 
-	--theme-surface-2: #1a1a1a;
-	--theme-on-surface-2: #ffffff;
+	--theme-surface-2: #232127;
+	--theme-on-surface-2: #b0afb0;
 
-	--theme-text-secondary: #999;
-	--theme-border-color: #222;
+	--theme-text-secondary: #454349;
+	--theme-border-color: #222224;
 
 	/* Theme Shape */
 	--theme-shape-radius: 8px;
@@ -75,22 +75,22 @@
 
 [data-theme='dark'] {
 	color-scheme: dark;
-	/* Same as default for ZEFI */
-	--theme-primary: #ff6b1a;
-	--theme-primary-hover: #ff5500;
+	/* Same as default - X86 Menu Style */
+	--theme-primary: #42467e;
+	--theme-primary-hover: #5458a0;
 	--theme-on-primary: #fff;
 
-	--theme-bg: #0a0a0a;
-	--theme-on-bg: #ffffff;
+	--theme-bg: #1b191d;
+	--theme-on-bg: #b0afb0;
 
-	--theme-surface-1: #141414;
-	--theme-on-surface-1: #ffffff;
+	--theme-surface-1: #1f1d21;
+	--theme-on-surface-1: #b0afb0;
 
-	--theme-surface-2: #1a1a1a;
-	--theme-on-surface-2: #ffffff;
+	--theme-surface-2: #232127;
+	--theme-on-surface-2: #b0afb0;
 
-	--theme-text-secondary: #999;
-	--theme-border-color: #222;
+	--theme-text-secondary: #454349;
+	--theme-border-color: #222224;
 
 	--theme-shape-radius: 8px;
 
