@@ -22,21 +22,34 @@ async function fetchDiscordData(discordId) {
 }
 
 export default async function handler(req, res) {
-  // CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  // CORS headers - mais permissivo
+  const origin = req.headers.origin || '*';
+  res.setHeader('Access-Control-Allow-Origin', origin);
+  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+  console.log('[AUTH] Method:', req.method);
+  console.log('[AUTH] Headers:', req.headers);
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
   if (req.method !== 'POST') {
-    return res.status(405).json({ success: false, message: 'Method not allowed' });
+    console.log('[AUTH] Method not allowed:', req.method);
+    return res.status(405).json({ 
+      success: false, 
+      message: 'Method not allowed',
+      receivedMethod: req.method 
+    });
   }
 
   try {
     const { discord_id } = req.body;
+
+    console.log('[AUTH] Discord ID recebido:', discord_id);
+    console.log('[AUTH] Body completo:', req.body);
 
     if (!discord_id) {
       return res.status(400).json({
@@ -45,24 +58,33 @@ export default async function handler(req, res) {
       });
     }
 
-    // Chamar API de autenticação
+    // Chamar API de autenticação (mesmo formato do x86)
+    console.log('[AUTH] Chamando API xereca-auth...');
+    const authPayload = {
+      discord_id: discord_id,
+      hwid: 'web-' + Date.now(),
+      app: 'panel',
+      version: APP_VERSION,
+    };
+    
+    console.log('[AUTH] Payload:', authPayload);
+    
     const response = await fetch(API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        key: discord_id,
-        hwid: 'web-' + Date.now(),
-        version: APP_VERSION,
-      }),
+      body: JSON.stringify(authPayload),
     });
 
     const data = await response.json();
+    console.log('[AUTH] Resposta da API:', data);
 
     if (data.ok || data.allowed) {
       // Buscar informações do Discord
+      console.log('[AUTH] Buscando dados do Discord...');
       const discordUser = await fetchDiscordData(discord_id);
+      console.log('[AUTH] Dados do Discord:', discordUser);
 
       // Gerar token
       const token = Buffer.from(`${discord_id}:${Date.now()}`).toString('base64');
@@ -80,16 +102,18 @@ export default async function handler(req, res) {
         },
       });
     } else {
+      console.log('[AUTH] Acesso negado:', data.message);
       return res.status(401).json({
         success: false,
         message: data.message || 'Acesso negado. Verifique seu Discord ID.',
       });
     }
   } catch (error) {
-    console.error('Auth error:', error);
+    console.error('[AUTH] Erro:', error);
     return res.status(500).json({
       success: false,
       message: 'Erro no servidor. Tente novamente mais tarde.',
+      error: error.message,
     });
   }
 }
