@@ -1,10 +1,30 @@
 ---
-import Layout from '../layouts/Page.astro';
-import { Container } from '../components/odyssey-theme';
 ---
 
-<Layout>
-  <Container>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Downloads - ZEFI</title>
+  <style>
+    :root {
+      --theme-primary: #42467e;
+      --theme-primary-hover: #5458a0;
+      --theme-on-primary: #fff;
+      --theme-bg: #1b191d;
+      --theme-on-bg: #b0afb0;
+      --theme-surface-1: #1f1d21;
+      --theme-on-surface-1: #b0afb0;
+      --theme-surface-2: #232127;
+      --theme-on-surface-2: #b0afb0;
+      --theme-text-secondary: #454349;
+      --theme-border-color: #222224;
+    }
+  </style>
+</head>
+<body>
+  <div class="downloads-wrapper">
     <div class="downloads-container">
       <div class="user-profile" id="userProfile" style="display: none;">
         <div class="profile-avatar" id="profileAvatar"></div>
@@ -31,13 +51,39 @@ import { Container } from '../components/odyssey-theme';
         <a href="/login" class="back-button">Voltar ao Login</a>
       </div>
     </div>
-  </Container>
-</Layout>
+  </div>
+</body>
+</html>
 
 <style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    height: 100%;
+    width: 100%;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  }
+
+  body {
+    background: var(--theme-bg);
+    color: var(--theme-on-bg);
+  }
+
+  .downloads-wrapper {
+    min-height: 100vh;
+    width: 100%;
+    background: var(--theme-bg);
+    overflow-y: auto;
+  }
+
   .downloads-container {
-    min-height: 80vh;
-    padding: 2rem 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
   }
 
   .user-profile {
