@@ -15,11 +15,17 @@ async function fetchDiscordData(discordId) {
     
     const data = await response.json();
     
+    // Construir URL do avatar se existir
+    let avatar_url = '';
+    if (data.avatar && data.id) {
+      avatar_url = `https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.png?size=128`;
+    }
+    
     // Retorna os dados no formato esperado
     return {
       username: data.username || '',
       global_name: data.global_name || data.username || '',
-      avatar_url: data.avatar_url || '',
+      avatar_url: avatar_url,
     };
   } catch (error) {
     return null;
@@ -77,6 +83,11 @@ export default async function handler(req, res) {
       // Buscar informações do Discord (mesma API do x86)
       const discordUser = await fetchDiscordData(discord_id);
 
+      // Se a API do Discord falhar, usar dados básicos
+      const username = discordUser?.username || `user_${discord_id.slice(-4)}`;
+      const global_name = discordUser?.global_name || discordUser?.username || username;
+      const avatar_url = discordUser?.avatar_url || '';
+
       // Gerar token
       const token = Buffer.from(`${discord_id}:${Date.now()}`).toString('base64');
 
@@ -87,9 +98,9 @@ export default async function handler(req, res) {
           discord_id,
           allowed: true,
           expires_at: data.expires_at,
-          username: discordUser?.username || '',
-          global_name: discordUser?.global_name || discordUser?.username || '',
-          avatar_url: discordUser?.avatar_url || '',
+          username: username,
+          global_name: global_name,
+          avatar_url: avatar_url,
         },
       });
     } else {
