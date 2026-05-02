@@ -4,10 +4,14 @@ import Layout from '../layouts/Page.astro';
 import ZefiHeroSection from '../components/sections/heros/ZefiHeroSection.astro';
 import ProductCard from '../components/products/ProductCard.astro';
 import Sidebar from '../components/Sidebar.astro';
+import UserProfileModal from '../components/UserProfileModal.astro';
+import PreviewModal from '../components/PreviewModal.astro';
 import { products } from '../config/products.js';
 ---
 
 <Sidebar />
+<UserProfileModal />
+<PreviewModal />
 
 <Layout>
 	<ZefiHeroSection />

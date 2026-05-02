@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zefi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .menu-container {
+            width: 800px;
+            height: 390px;
+            background: #1e1c20;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            height: 40px;
+            background: #1e1c20;
+            border-bottom: 1px solid #222024;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: auto;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .profile-name {
+            font-size: 13px;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .profile-time {
+            font-size: 11px;
+            color: #888888;
+        }
+
+        .profile-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f43737, #ff6b6b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        /* Animated Line */
+        .animated-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            overflow: hidden;
+        }
+
+        .animated-line::before {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #42467e, transparent);
+            animation: slide 3s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { left: -60px; }
+            100% { left: 100%; }
+        }
+
+        /* Main Content */
+        .content {
+            display: flex;
+            height: calc(100% - 40px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 154px;
+            background: #1e1c20;
+            padding: 20px 0;
+        }
+
+        .tab {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 30px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab.active {
+            background: rgba(66, 70, 126, 0.1);
+        }
+
+        .tab.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 20px;
+            background: #42467e;
+            border-radius: 0 2px 2px 0;
+        }
+
+        .tab i {
+            font-size: 14px;
+            color: #454349;
+            transition: color 0.3s ease;
+        }
+
+        .tab.active i {
+            color: #42467e;
+        }
+
+        .tab span {
+            font-size: 13px;
+            color: #454349;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .tab.active span {
+            color: #b0afb0;
+        }
+
+        .subtab {
+            padding: 6px 40px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            color: #454349;
+        }
+
+        .subtab.active {
+            color: #b0afb0;
+        }
+
+        /* Main Panel */
+        .main-panel {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .main-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .main-panel::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .main-panel::-webkit-scrollbar-thumb {
+            background: #2c2a30;
+            border-radius: 3px;
+        }
+
+        /* Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 275px);
+            gap: 16px;
+        }
+
+        .card {
+            background: #1f1d21;
+            border-radius: 8px;
+            border: 1px solid rgba(34, 34, 36, 0);
+            overflow: hidden;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            padding: 0;
+            height: 45px;
+            background: #232125;
+        }
+
+        .card-icon {
+            width: 45px;
+            height: 45px;
+            background: #232125;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .card-icon i {
+            font-size: 16px;
+            color: #42467e;
+        }
+
+        .card-info {
+            flex: 1;
+            padding: 0 12px;
+        }
+
+        .card-title {
+            font-size: 13px;
+            color: #b0afb0;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .card-description {
+            font-size: 11px;
+            color: #454349;
+        }
+
+        .card-action {
+            padding-right: 15px;
+        }
+
+        /* Toggle Switch */
+        .toggle {
+            width: 34px;
+            height: 18px;
+            background: #2a2830;
+            border-radius: 10px;
+            border: 1px solid #222024;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #666;
+            border-radius: 50%;
+            top: 2px;
+            left: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle.active {
+            background: #2a2830;
+        }
+
+        .toggle.active::after {
+            left: 16px;
+            background: #42467e;
+        }
+
+        /* Gear Icon */
+        .gear-icon {
+            color: #1b191d;
+            font-size: 14px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .gear-icon.active {
+            color: #66697f;
+        }
+
+        /* Expanded Card */
+        .card-expanded {
+            background: #1f1d21;
+            border-radius: 8px;
+            padding: 0;
+            margin-bottom: 8px;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .card-item label {
+            font-size: 13px;
+            color: #969696;
+        }
+
+        /* Keybind Card */
+        .keybind-card {
+            background: #1a181c;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 8px;
+        }
+
+        .keybind-input {
+            background: #2c2a30;
+            border: 1px solid #42467e;
+            border-radius: 4px;
+            padding: 6px 12px;
+            color: #b0afb0;
+            font-size: 12px;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        /* Sliders Card */
+        .sliders-card {
+            background: #1a181c;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 8px;
+        }
+
+        .slider-item {
+            margin-bottom: 30px;
+        }
+
+        .slider-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .slider-label {
+            font-size: 13px;
+            color: #969696;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            background: #2c2a30;
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .slider-fill {
+            height: 100%;
+            background: #5aa9ff;
+            border-radius: 10px;
+            transition: width 0.1s ease;
+        }
+
+        /* Selector */
+        .selector {
+            background: #1f1d21;
+            border: 1px solid rgba(66, 70, 126, 0.3);
+            border-radius: 4px;
+            padding: 8px 12px;
+            color: #b0afb0;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: border-color 0.3s ease;
+        }
+
+        .selector:hover {
+            border-color: rgba(66, 70, 126, 0.7);
+        }
+
+        .selector i {
+            font-size: 10px;
+            color: #969696;
+        }
+
+        /* Button */
+        .button {
+            width: 100%;
+            padding: 10px;
+            background: #1f1d21;
+            border: 1px solid #222024;
+            border-radius: 6px;
+            color: #b0afb0;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .button::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background: rgba(66, 70, 126, 0.3);
+            transition: height 0.3s ease;
+            border-radius: 6px;
+        }
+
+        .button:hover::before {
+            height: 100%;
+        }
+
+        .button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Single Column Layout */
+        .single-column {
+            max-width: 275px;
+        }
+
+        /* Responsive */
+        @media (max-width: 850px) {
+            .menu-container {
+                width: 100%;
+                max-width: 600px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-container">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="animated-line"></div>
+            <div class="profile">
+                <div class="profile-info">
+                    <div class="profile-name">User</div>
+                    <div class="profile-time">30D</div>
+                </div>
+                <div class="profile-avatar">U</div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="tab active" data-tab="combat">
+                    <i class="fas fa-person-rifle"></i>
+                    <span>home</span>
+                </div>
+                <div class="tab" data-tab="settings">
+                    <i class="fas fa-gear"></i>
+                    <span>settings</span>
+                </div>
+                <div class="tab" data-tab="exploits">
+                    <i class="fas fa-bomb"></i>
+                    <span>exploits</span>
+                </div>
+
+                <div id="subtabs-combat" class="subtabs">
+                    <div class="subtab active" data-subtab="combat">combat</div>
+                    <div class="subtab" data-subtab="visuals">visuals</div>
+                </div>
+
+                <div id="subtabs-settings" class="subtabs" style="display: none;">
+                    <div class="subtab active" data-subtab="general">general</div>
+                    <div class="subtab" data-subtab="keybinds">keybinds</div>
+                </div>
+
+                <div id="subtabs-exploits" class="subtabs" style="display: none;">
+                    <div class="subtab active" data-subtab="weapon">weapon</div>
+                </div>
+            </div>
+
+            <!-- Main Panel -->
+            <div class="main-panel">
+                <!-- Combat Tab -->
+                <div id="panel-combat" class="panel-content">
+                    <div class="cards-grid">
+                        <!-- Aimbot Card -->
+                        <div class="card-expanded">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-icon">
+                                        <i class="fas fa-crosshairs"></i>
+                                    </div>
+                                    <div class="card-info">
+                                        <div class="card-title">aimbot</div>
+                                        <div class="card-description">mira automatica</div>
+                                    </div>
+                                    <div class="card-action">
+                                        <i class="fas fa-gear gear-icon" id="aimbot-gear"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-item">
+                                    <label>Enable Aimbot</label>
+                                    <div class="toggle active" id="toggle-aimbot"></div>
+                                </div>
+                                <div class="card-item">
+                                    <label>Ignore Knocked</label>
+                                    <div class="toggle" id="toggle-knocked"></div>
+                                </div>
+                                <div class="card-item">
+                                    <label>Ignore Bots</label>
+                                    <div class="toggle" id="toggle-bots"></div>
+                                </div>
+                                <div class="card-item">
+                                    <label>Show FOV Circle</label>
+                                    <div class="toggle active" id="toggle-fov"></div>
+                                </div>
+                            </div>
+
+                            <!-- Keybind (hidden by default) -->
+                            <div class="keybind-card" id="aimbot-keybind" style="display: none;">
+                                <div class="card-item">
+                                    <label>Keybind</label>
+                                    <input type="text" class="keybind-input" value="Right Mouse" readonly>
+                                </div>
+                            </div>
+
+                            <!-- Sliders (shown when aimbot enabled) -->
+                            <div class="sliders-card" id="aimbot-sliders">
+                                <div class="slider-item">
+                                    <label class="slider-label">FOV</label>
+                                    <div class="slider">
+                                        <div class="slider-fill" style="width: 50%;"></div>
+                                    </div>
+                                </div>
+                                <div class="slider-item">
+                                    <label class="slider-label">Distance</label>
+                                    <div class="slider">
+                                        <div class="slider-fill" style="width: 70%;"></div>
+                                    </div>
+                                </div>
+                                <div class="slider-item">
+                                    <label class="slider-label">Update Interval</label>
+                                    <div class="slider">
+                                        <div class="slider-fill" style="width: 30%;"></div>
+                                    </div>
+                                </div>
+                                <div class="slider-item">
+                                    <label class="slider-label">Hitbox</label>
+                                    <div class="selector">
+                                        <span>Head</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="slider-item">
+                                    <label class="slider-label">Priority</label>
+                                    <div class="selector">
+                                        <span>Crosshair</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visuals Tab -->
+                <div id="panel-visuals" class="panel-content" style="display: none;">
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-square"></i>
+                                </div>
+                                <div class="card-info">
+                                    <div class="card-title">caixas</div>
+                                    <div class="card-description">caixas dos jogadores</div>
+                                </div>
+                                <div class="card-action">
+                                    <div class="toggle active"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-person"></i>
+                                </div>
+                                <div class="card-info">
+                                    <div class="card-title">esqueleto</div>
+                                    <div class="card-description">esqueleto dos jogadores</div>
+                                </div>
+                                <div class="card-action">
+                                    <div class="toggle"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <div class="card-info">
+                                    <div class="card-title">barra de vida</div>
+                                    <div class="card-description">mostra HP</div>
+                                </div>
+                                <div class="card-action">
+                                    <div class="toggle active"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-shield"></i>
+                                </div>
+                                <div class="card-info">
+                                    <div class="card-title">barra de colete</div>
+                                    <div class="card-description">mostra armor</div>
+                                </div>
+                                <div class="card-action">
+                                    <div class="toggle"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-tag"></i>
+                                </div>
+                                <div class="card-info">
+                                    <div class="card-title">nome</div>
+                                    <div class="card-description">nome dos jogadores</div>
+                                </div>
+                                <div class="card-action">
+                                    <div class="toggle active"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-ruler"></i>
+                                </div>
+                                <div class="card-info">
+                                    <div class="card-title">distancia</div>
+                                    <div class="card-description">mostra distancia</div>
+                                </div>
+                                <div class="card-action">
+                                    <div class="toggle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- General Settings Tab -->
+                <div id="panel-general" class="panel-content" style="display: none;">
+                    <div class="single-column">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-mask"></i>
+                                </div>
+                                <div class="card-info">
+                                    <div class="card-title">stream proof</div>
+                                    <div class="card-description">oculta da captura</div>
+                                </div>
+                                <div class="card-action">
+                                    <div class="toggle"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <button class="button">
+                            <span>sair</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Keybinds Tab -->
+                <div id="panel-keybinds" class="panel-content" style="display: none;">
+                    <div class="single-column">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-keyboard"></i>
+                                </div>
+                                <div class="card-info">
+                                    <div class="card-title">Tecla do Menu</div>
+                                    <div class="card-description">atalho para abrir</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weapon Exploits Tab -->
+                <div id="panel-weapon" class="panel-content" style="display: none;">
+                    <div class="single-column">
+                        <div class="card-expanded">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-icon">
+                                        <i class="fas fa-bullseye"></i>
+                                    </div>
+                                    <div class="card-info">
+                                        <div class="card-title">recoil control</div>
+                                        <div class="card-description">controle de recuo</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-item">
+                                    <label>No Recoil</label>
+                                    <div class="toggle active"></div>
+                                </div>
+                                <div class="card-item">
+                                    <label>Custom Recoil</label>
+                                    <div class="toggle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle functionality
+        document.querySelectorAll('.toggle').forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+
+        // Gear icon toggle
+        const aimbotGear = document.getElementById('aimbot-gear');
+        const aimbotKeybind = document.getElementById('aimbot-keybind');
+
+        aimbotGear.addEventListener('click', function() {
+            this.classList.toggle('active');
+            if (aimbotKeybind.style.display === 'none') {
+                aimbotKeybind.style.display = 'block';
+            } else {
+                aimbotKeybind.style.display = 'none';
+            }
+        });
+
+        // Tab switching
+        const tabs = document.querySelectorAll('.tab');
+        const subtabsContainers = document.querySelectorAll('.subtabs');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active from all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                // Hide all subtabs
+                subtabsContainers.forEach(container => {
+                    container.style.display = 'none';
+                });
+
+                // Show corresponding subtabs
+                const tabName = this.dataset.tab;
+                const subtabsContainer = document.getElementById(`subtabs-${tabName}`);
+                if (subtabsContainer) {
+                    subtabsContainer.style.display = 'block';
+                    
+                    // Trigger first subtab
+                    const firstSubtab = subtabsContainer.querySelector('.subtab');
+                    if (firstSubtab) {
+                        firstSubtab.click();
+                    }
+                }
+            });
+        });
+
+        // Subtab switching
+        const subtabs = document.querySelectorAll('.subtab');
+        const panels = document.querySelectorAll('.panel-content');
+
+        subtabs.forEach(subtab => {
+            subtab.addEventListener('click', function() {
+                // Remove active from all subtabs in this container
+                const container = this.parentElement;
+                container.querySelectorAll('.subtab').forEach(st => st.classList.remove('active'));
+                this.classList.add('active');
+
+                // Hide all panels
+                panels.forEach(panel => {
+                    panel.style.display = 'none';
+                });
+
+                // Show corresponding panel
+                const panelName = this.dataset.subtab;
+                const panel = document.getElementById(`panel-${panelName}`);
+                if (panel) {
+                    panel.style.display = 'block';
+                }
+            });
+        });
+
+        // Slider interaction
+        document.querySelectorAll('.slider').forEach(slider => {
+            slider.addEventListener('click', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const percentage = (x / rect.width) * 100;
+                const fill = this.querySelector('.slider-fill');
+                fill.style.width = percentage + '%';
+            });
+        });
+    </script>
+</body>
+</html>
