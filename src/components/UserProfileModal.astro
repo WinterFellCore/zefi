@@ -1,0 +1,420 @@
+---
+---
+
+<div class="user-profile-modal" id="userProfileModal">
+  <div class="modal-overlay" id="modalOverlay"></div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Perfil do Usuário</h2>
+      <button class="modal-close" id="modalClose">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="profile-avatar-section">
+        <div class="profile-avatar-large" id="profileAvatarLarge"></div>
+      </div>
+
+      <div class="profile-info-section">
+        <div class="profile-info-item">
+          <label>Nome</label>
+          <div class="profile-info-value" id="profileName">Carregando...</div>
+        </div>
+
+        <div class="profile-info-item">
+          <label>Discord ID</label>
+          <div class="profile-info-value" id="profileDiscordId">-</div>
+        </div>
+
+        <div class="profile-info-item">
+          <label>Status da Assinatura</label>
+          <div class="profile-info-value" id="profileSubscription">Verificando...</div>
+        </div>
+
+        <div class="profile-info-item">
+          <label>Validade do Acesso</label>
+          <div class="profile-info-value" id="profileExpiry">-</div>
+        </div>
+      </div>
+
+      <div class="profile-actions">
+        <button class="profile-button profile-button-secondary" id="discordButton">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
+          </svg>
+          Entrar no Discord
+        </button>
+        <button class="profile-button profile-button-danger" id="logoutButtonModal">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          Sair da Conta
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .user-profile-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .user-profile-modal.active {
+    display: flex;
+  }
+
+  .modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.2s ease;
+  }
+
+  .modal-content {
+    position: relative;
+    background: var(--theme-surface-1, #1f1d21);
+    border: 1px solid var(--theme-border-color, #222224);
+    border-radius: 16px;
+    width: 90%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+    animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--theme-border-color, #222224);
+  }
+
+  .modal-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--theme-on-surface-1, #b0afb0);
+  }
+
+  .modal-close {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    color: var(--theme-text-secondary, #454349);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .modal-close:hover {
+    background: var(--theme-surface-2, #232127);
+    color: var(--theme-on-surface-1, #b0afb0);
+  }
+
+  .modal-body {
+    padding: 2rem 1.5rem;
+    overflow-y: auto;
+    max-height: calc(90vh - 80px);
+  }
+
+  .profile-avatar-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  .profile-avatar-large {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--theme-primary, #42467e) 0%, #5458a0 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--theme-on-primary, #fff);
+    overflow: hidden;
+    border: 4px solid var(--theme-surface-2, #232127);
+    box-shadow: 0 8px 24px rgba(66, 70, 126, 0.3);
+  }
+
+  .profile-avatar-large img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .profile-info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .profile-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .profile-info-item label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--theme-text-secondary, #454349);
+  }
+
+  .profile-info-value {
+    font-size: 1rem;
+    color: var(--theme-on-surface-1, #b0afb0);
+    padding: 0.75rem;
+    background: var(--theme-surface-2, #232127);
+    border-radius: 8px;
+    border: 1px solid var(--theme-border-color, #222224);
+  }
+
+  .profile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .profile-button {
+    width: 100%;
+    padding: 0.875rem 1.25rem;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    border: none;
+  }
+
+  .profile-button-secondary {
+    background: var(--theme-primary, #42467e);
+    color: var(--theme-on-primary, #fff);
+  }
+
+  .profile-button-secondary:hover {
+    background: var(--theme-primary-hover, #5458a0);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(66, 70, 126, 0.4);
+  }
+
+  .profile-button-danger {
+    background: transparent;
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+
+  .profile-button-danger:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: #ef4444;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .modal-content {
+      width: 95%;
+      max-height: 95vh;
+    }
+
+    .modal-body {
+      padding: 1.5rem 1rem;
+    }
+
+    .profile-avatar-large {
+      width: 100px;
+      height: 100px;
+      font-size: 2.5rem;
+    }
+  }
+</style>
+
+<script>
+  // Função para abrir o modal
+  function openUserProfileModal() {
+    const modal = document.getElementById('userProfileModal');
+    if (modal) {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      loadUserProfile();
+    }
+  }
+
+  // Função para fechar o modal
+  function closeUserProfileModal() {
+    const modal = document.getElementById('userProfileModal');
+    if (modal) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+
+  // Carregar dados do perfil
+  function loadUserProfile() {
+    const userData = localStorage.getItem('user_data');
+    if (!userData) return;
+
+    try {
+      const user = JSON.parse(userData);
+
+      // Avatar
+      const profileAvatarLarge = document.getElementById('profileAvatarLarge');
+      if (profileAvatarLarge) {
+        if (user.avatar_url) {
+          profileAvatarLarge.innerHTML = `<img src="${user.avatar_url}" alt="Avatar" />`;
+        } else {
+          const initial = (user.global_name || user.username || user.discord_id || '?')[0].toUpperCase();
+          profileAvatarLarge.textContent = initial;
+        }
+      }
+
+      // Nome
+      const profileName = document.getElementById('profileName');
+      if (profileName) {
+        profileName.textContent = user.global_name || user.username || `User ${user.discord_id}`;
+      }
+
+      // Discord ID
+      const profileDiscordId = document.getElementById('profileDiscordId');
+      if (profileDiscordId) {
+        profileDiscordId.textContent = user.discord_id || '-';
+      }
+
+      // Status da assinatura
+      const profileSubscription = document.getElementById('profileSubscription');
+      if (profileSubscription) {
+        if (user.expires_at) {
+          const expiryDate = new Date(user.expires_at);
+          const now = new Date();
+          const daysRemaining = Math.ceil((expiryDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+          
+          if (daysRemaining < 0) {
+            profileSubscription.textContent = '❌ Expirado';
+            profileSubscription.style.color = '#ef4444';
+          } else if (daysRemaining >= 365) {
+            profileSubscription.textContent = '✅ Vitalício';
+            profileSubscription.style.color = '#10b981';
+          } else {
+            profileSubscription.textContent = '✅ Ativo';
+            profileSubscription.style.color = '#10b981';
+          }
+        } else {
+          profileSubscription.textContent = '✅ Vitalício';
+          profileSubscription.style.color = '#10b981';
+        }
+      }
+
+      // Expiração
+      const profileExpiry = document.getElementById('profileExpiry');
+      if (profileExpiry) {
+        if (user.expires_at) {
+          const expiryDate = new Date(user.expires_at);
+          const now = new Date();
+          const daysRemaining = Math.ceil((expiryDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+          
+          if (daysRemaining < 0) {
+            profileExpiry.textContent = 'Acesso expirado';
+            profileExpiry.style.color = '#ef4444';
+          } else if (daysRemaining >= 365) {
+            profileExpiry.textContent = 'Sem data de expiração';
+          } else if (daysRemaining >= 30) {
+            const months = Math.floor(daysRemaining / 30);
+            profileExpiry.textContent = `${months} ${months === 1 ? 'mês' : 'meses'}`;
+          } else {
+            profileExpiry.textContent = `${daysRemaining} ${daysRemaining === 1 ? 'dia' : 'dias'}`;
+          }
+        } else {
+          profileExpiry.textContent = 'Sem data de expiração';
+        }
+      }
+    } catch (error) {
+      console.error('Error loading user profile:', error);
+    }
+  }
+
+  // Event listeners
+  document.addEventListener('DOMContentLoaded', () => {
+    const modalClose = document.getElementById('modalClose');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const logoutButtonModal = document.getElementById('logoutButtonModal');
+    const discordButton = document.getElementById('discordButton');
+
+    if (modalClose) {
+      modalClose.addEventListener('click', closeUserProfileModal);
+    }
+
+    if (modalOverlay) {
+      modalOverlay.addEventListener('click', closeUserProfileModal);
+    }
+
+    if (logoutButtonModal) {
+      logoutButtonModal.addEventListener('click', () => {
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('user_data');
+        localStorage.removeItem('discord_id');
+        window.location.href = '/login';
+      });
+    }
+
+    if (discordButton) {
+      discordButton.addEventListener('click', () => {
+        window.open('https://discord.gg/jsymg94sXB', '_blank');
+      });
+    }
+  });
+
+  // Expor função globalmente
+  window.openUserProfileModal = openUserProfileModal;
+  window.closeUserProfileModal = closeUserProfileModal;
+</script>
