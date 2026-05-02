@@ -53,114 +53,56 @@ import { Container } from '@components/odyssey-theme';
 
   .downloads-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
   }
 
-  /* Glass Card */
+  /* Card padrão - Variação 1 */
   .download-card {
-    background: rgba(31, 29, 33, 0.5);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(66, 70, 126, 0.3);
-    border-radius: 20px;
-    padding: 2rem;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .download-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, var(--theme-primary), transparent);
-    opacity: 0;
-    transition: opacity 0.4s ease;
+    background: #151a26;
+    border-radius: 14px;
+    padding: 20px;
+    transition: 0.3s;
   }
 
   .download-card:hover {
-    background: rgba(31, 29, 33, 0.7);
-    border-color: var(--theme-primary);
-    transform: translateY(-8px);
-    box-shadow: 0 20px 60px rgba(66, 70, 126, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
   }
 
-  .download-card:hover::before {
-    opacity: 1;
-  }
-
-  .download-title {
-    font-size: 1.5rem;
-    font-weight: 700;
+  .name {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
     color: #fff;
-    margin: 0;
   }
 
-  .download-subtitle {
-    font-size: 0.875rem;
-    color: var(--theme-text-secondary, #888);
-    margin: 0;
+  .desc {
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 10px;
   }
 
-  .download-desc {
-    font-size: 0.95rem;
-    color: var(--theme-text-secondary, #aaa);
-    line-height: 1.6;
-    flex: 1;
+  .info {
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 15px;
   }
 
-  .download-info {
-    font-size: 0.875rem;
-    color: var(--theme-primary);
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .download-btn {
-    display: block;
-    width: 100%;
-    padding: 1rem;
-    background: linear-gradient(135deg, var(--theme-primary), #5458a0);
-    color: #fff;
-    text-align: center;
+  .btn {
+    display: inline-block;
+    padding: 8px 14px;
+    background: #4e7cff;
+    border-radius: 6px;
     text-decoration: none;
-    border-radius: 12px;
-    font-weight: 700;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 20px rgba(66, 70, 126, 0.4);
-    position: relative;
-    overflow: hidden;
+    color: #fff;
+    font-size: 12px;
+    transition: all 0.2s ease;
   }
 
-  .download-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transition: left 0.6s ease;
-  }
-
-  .download-btn:hover::before {
-    left: 100%;
-  }
-
-  .download-btn:hover {
+  .btn:hover {
+    background: #6b93ff;
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(66, 70, 126, 0.6);
   }
 
   .empty-state {
@@ -187,7 +129,7 @@ import { Container } from '@components/odyssey-theme';
 
     .downloads-grid {
       grid-template-columns: 1fr;
-      gap: 1.5rem;
+      gap: 15px;
     }
   }
 </style>
@@ -226,14 +168,10 @@ import { Container } from '@components/odyssey-theme';
       if (data.success && data.downloads && data.downloads.length > 0) {
         downloadsGrid.innerHTML = data.downloads.map(download => `
           <div class="download-card">
-            <div class="download-title">${download.name}</div>
-            <div class="download-subtitle">Emuladores / Intel</div>
-            <div class="download-desc">${download.description}</div>
-            <div class="download-info">
-              <span>${download.size || 'N/A'}</span>
-              ${download.version ? `<span>• ${download.version}</span>` : ''}
-            </div>
-            <a href="${download.url}" class="download-btn" target="_blank" rel="noopener noreferrer">Download</a>
+            <div class="name">${download.name}</div>
+            <div class="desc">Emuladores / Intel</div>
+            <div class="info">${download.size || 'N/A'} • ${download.version || 'OB53'}</div>
+            <a href="${download.url}" class="btn" target="_blank" rel="noopener noreferrer">Download</a>
           </div>
         `).join('');
       } else {
