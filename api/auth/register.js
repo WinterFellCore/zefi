@@ -40,7 +40,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { discord_id, username, password, hwid } = req.body;
+    const { discord_id, username, password } = req.body;
 
     // Validações
     if (!discord_id || !username || !password) {
@@ -72,7 +72,6 @@ export default async function handler(req, res) {
         discord_id, 
         username, 
         password,
-        hwid: hwid || null,
       }),
     });
 
