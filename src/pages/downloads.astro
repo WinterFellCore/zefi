@@ -20,17 +20,368 @@
       --theme-on-surface-2: #b0afb0;
       --theme-text-secondary: #454349;
       --theme-border-color: #222224;
+      --sidebar-width: 80px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    }
+
+    body {
+      background: var(--theme-bg);
+      color: var(--theme-on-bg);
+      display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      background: var(--theme-surface-1);
+      border-right: 1px solid var(--theme-border-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem 0;
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .sidebar-logo {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--theme-primary) 0%, #5458a0 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--theme-on-primary);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .sidebar-logo:hover {
+      transform: scale(1.05);
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      width: 100%;
+      padding: 0 1rem;
+    }
+
+    .sidebar-item {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--theme-text-secondary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .sidebar-item:hover {
+      background: var(--theme-surface-2);
+      color: var(--theme-on-surface-1);
+    }
+
+    .sidebar-item.active {
+      background: rgba(66, 70, 126, 0.15);
+      color: var(--theme-primary);
+    }
+
+    .sidebar-item svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .sidebar-profile {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--theme-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--theme-on-primary);
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      overflow: hidden;
+      border: 2px solid transparent;
+    }
+
+    .sidebar-profile:hover {
+      border-color: var(--theme-primary);
+      transform: scale(1.05);
+    }
+
+    .sidebar-profile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      min-height: 100vh;
+      overflow-y: auto;
+    }
+
+    .downloads-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .downloads-header {
+      margin-bottom: 2rem;
+    }
+
+    .downloads-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--theme-on-bg);
+    }
+
+    .downloads-header p {
+      color: var(--theme-text-secondary);
+      font-size: 1.1rem;
+    }
+
+    .user-info-card {
+      background: var(--theme-surface-1);
+      border: 1px solid var(--theme-border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .user-info-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--theme-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--theme-on-primary);
+      overflow: hidden;
+    }
+
+    .user-info-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .user-info-details {
+      flex: 1;
+    }
+
+    .user-info-details h2 {
+      margin: 0 0 0.25rem 0;
+      color: var(--theme-on-surface-1);
+      font-size: 1.25rem;
+    }
+
+    .user-info-details p {
+      margin: 0;
+      color: var(--theme-text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .logout-button {
+      padding: 0.5rem 1.25rem;
+      background: transparent;
+      border: 1px solid var(--theme-border-color);
+      border-radius: 6px;
+      color: var(--theme-on-surface-1);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+
+    .logout-button:hover {
+      background: var(--theme-surface-2);
+      border-color: var(--theme-primary);
+    }
+
+    .downloads-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .download-card {
+      background: var(--theme-surface-1);
+      border: 1px solid var(--theme-border-color);
+      border-radius: 16px;
+      padding: 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .download-card:hover {
+      border-color: var(--theme-primary);
+      box-shadow: 0 20px 60px rgba(66, 70, 126, 0.25);
+      transform: translateY(-4px);
+    }
+
+    .download-content {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .download-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(66, 70, 126, 0.15);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      color: var(--theme-primary);
+    }
+
+    .download-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .download-card h3 {
+      margin: 0 0 0.75rem 0;
+      color: var(--theme-on-surface-1);
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+
+    .download-card p {
+      margin: 0 0 1.25rem 0;
+      color: var(--theme-text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .download-meta {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--theme-border-color);
+    }
+
+    .download-version,
+    .download-size {
+      font-size: 0.8rem;
+      color: var(--theme-text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .download-version {
+      color: var(--theme-primary);
+      font-weight: 600;
+    }
+
+    .download-button {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, var(--theme-primary) 0%, #5458a0 100%);
+      color: var(--theme-on-primary);
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(66, 70, 126, 0.3);
+    }
+
+    .download-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(66, 70, 126, 0.4);
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 60px;
+      }
+
+      .main-content {
+        margin-left: 60px;
+      }
+
+      .downloads-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="downloads-wrapper">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-logo" onclick="window.location.href='/'">Z</div>
+    
+    <nav class="sidebar-nav">
+      <div class="sidebar-item active" title="Downloads">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+        </svg>
+      </div>
+    </nav>
+
+    <div class="sidebar-profile" id="sidebarProfile" title="Perfil"></div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
     <div class="downloads-container">
-      <div class="user-profile" id="userProfile" style="display: none;">
-        <div class="profile-avatar" id="profileAvatar"></div>
-        <div class="profile-info">
-          <h2 id="profileName">Carregando...</h2>
-          <p id="profileExpiry">Verificando acesso...</p>
+      <div class="user-info-card" id="userInfoCard" style="display: none;">
+        <div class="user-info-avatar" id="userAvatar"></div>
+        <div class="user-info-details">
+          <h2 id="userName">Carregando...</h2>
+          <p id="userExpiry">Verificando acesso...</p>
         </div>
         <button class="logout-button" id="logoutButton">Sair</button>
       </div>
@@ -43,479 +394,135 @@
       <div class="downloads-grid" id="downloadsGrid">
         <!-- Downloads serão carregados aqui -->
       </div>
-
-      <div class="no-access" id="noAccess" style="display: none;">
-        <div class="no-access-icon">🔒</div>
-        <h2>Acesso Negado</h2>
-        <p>Você não tem permissão para acessar esta área.</p>
-        <a href="/login" class="back-button">Voltar ao Login</a>
-      </div>
     </div>
   </div>
-</body>
-</html>
 
-<style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  <script>
+    // Verificar autenticação
+    const authToken = localStorage.getItem('auth_token');
+    const userData = localStorage.getItem('user_data');
 
-  html, body {
-    height: 100%;
-    width: 100%;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-  }
-
-  body {
-    background: var(--theme-bg);
-    color: var(--theme-on-bg);
-  }
-
-  .downloads-wrapper {
-    min-height: 100vh;
-    width: 100%;
-    background: var(--theme-bg);
-    overflow-y: auto;
-  }
-
-  .downloads-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-  }
-
-  .user-profile {
-    background: var(--theme-surface-1);
-    border: 1px solid var(--theme-border-color);
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-  }
-
-  .profile-avatar {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: var(--theme-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--theme-on-primary);
-    flex-shrink: 0;
-    overflow: hidden;
-  }
-
-  .profile-avatar img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
-  .profile-info {
-    flex: 1;
-  }
-
-  .profile-info h2 {
-    margin: 0 0 0.25rem 0;
-    color: var(--theme-on-surface-1);
-    font-size: 1.25rem;
-  }
-
-  .profile-info p {
-    margin: 0;
-    color: var(--theme-text-secondary);
-    font-size: 0.9rem;
-  }
-
-  .logout-button {
-    padding: 0.5rem 1.25rem;
-    background: transparent;
-    border: 1px solid var(--theme-border-color);
-    border-radius: 6px;
-    color: var(--theme-on-surface-1);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 0.9rem;
-  }
-
-  .logout-button:hover {
-    background: var(--theme-surface-2);
-    border-color: var(--theme-primary);
-  }
-
-  .downloads-header {
-    margin-bottom: 2rem;
-  }
-
-  .downloads-header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-    color: var(--theme-on-bg);
-  }
-
-  .downloads-header p {
-    color: var(--theme-text-secondary);
-    font-size: 1.1rem;
-  }
-
-  .downloads-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-  }
-
-  .download-card {
-    background: var(--theme-surface-1);
-    border: 1px solid var(--theme-border-color);
-    border-radius: 16px;
-    padding: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .download-card:hover {
-    border-color: var(--theme-primary);
-    box-shadow: 0 20px 60px rgba(66, 70, 126, 0.25);
-    transform: translateY(-4px);
-  }
-
-  .download-image {
-    width: 100%;
-    height: 220px;
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(135deg, var(--theme-surface-2) 0%, var(--theme-surface-1) 100%);
-  }
-
-  .download-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-  }
-
-  .download-card:hover .download-image img {
-    transform: scale(1.05);
-  }
-
-  .download-badge {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    background: linear-gradient(135deg, #ff6b1a 0%, #ff5500 100%);
-    color: white;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: 0 4px 12px rgba(255, 107, 26, 0.4);
-  }
-
-  .download-content {
-    padding: 1.5rem;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .download-icon {
-    width: 48px;
-    height: 48px;
-    background: rgba(66, 70, 126, 0.15);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1rem;
-    color: var(--theme-primary);
-  }
-
-  .download-icon svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  .download-card h3 {
-    margin: 0 0 0.75rem 0;
-    color: var(--theme-on-surface-1);
-    font-size: 1.35rem;
-    font-weight: 700;
-  }
-
-  .download-card p {
-    margin: 0 0 1.25rem 0;
-    color: var(--theme-text-secondary);
-    font-size: 0.9rem;
-    line-height: 1.6;
-    flex: 1;
-  }
-
-  .download-meta {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--theme-border-color);
-  }
-
-  .download-version,
-  .download-size {
-    font-size: 0.8rem;
-    color: var(--theme-text-secondary);
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-
-  .download-version::before {
-    content: "📦";
-    font-size: 1rem;
-  }
-
-  .download-size::before {
-    content: "💾";
-    font-size: 1rem;
-  }
-
-  .download-version {
-    color: var(--theme-primary);
-    font-weight: 600;
-  }
-
-  .download-button {
-    width: 100%;
-    padding: 1rem;
-    background: linear-gradient(135deg, var(--theme-primary) 0%, #5458a0 100%);
-    color: var(--theme-on-primary);
-    border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    text-decoration: none;
-    box-shadow: 0 4px 16px rgba(66, 70, 126, 0.3);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .download-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s ease;
-  }
-
-  .download-button:hover::before {
-    left: 100%;
-  }
-
-  .download-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(66, 70, 126, 0.4);
-  }
-
-  .download-button svg {
-    transition: transform 0.3s ease;
-  }
-
-  .download-button:hover svg {
-    transform: translateY(2px);
-  }
-
-  .no-access {
-    text-align: center;
-    padding: 4rem 2rem;
-  }
-
-  .no-access-icon {
-    font-size: 4rem;
-    margin-bottom: 1rem;
-  }
-
-  .no-access h2 {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    color: var(--theme-on-bg);
-  }
-
-  .no-access p {
-    color: var(--theme-text-secondary);
-    margin-bottom: 2rem;
-    font-size: 1.1rem;
-  }
-
-  .back-button {
-    display: inline-block;
-    padding: 0.875rem 2rem;
-    background: var(--theme-primary);
-    color: var(--theme-on-primary);
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.2s ease;
-  }
-
-  .back-button:hover {
-    background: var(--theme-primary-hover);
-    transform: translateY(-1px);
-  }
-</style>
-
-<script>
-  // Verificar autenticação
-  const authToken = localStorage.getItem('auth_token');
-  const userData = localStorage.getItem('user_data');
-
-  if (!authToken || !userData) {
-    window.location.href = '/login';
-  }
-
-  const user = JSON.parse(userData || '{}');
-  const userProfile = document.getElementById('userProfile');
-  const profileAvatar = document.getElementById('profileAvatar');
-  const profileName = document.getElementById('profileName');
-  const profileExpiry = document.getElementById('profileExpiry');
-  const downloadsGrid = document.getElementById('downloadsGrid');
-  const noAccess = document.getElementById('noAccess');
-  const logoutButton = document.getElementById('logoutButton');
-
-  // Mostrar perfil do usuário
-  if (userProfile && profileAvatar && profileName && profileExpiry) {
-    userProfile.style.display = 'flex';
-    
-    // Avatar
-    if (user.avatar_url) {
-      profileAvatar.innerHTML = `<img src="${user.avatar_url}" alt="Avatar" />`;
-    } else {
-      const initial = (user.global_name || user.username || user.discord_id || '?')[0].toUpperCase();
-      profileAvatar.textContent = initial;
-    }
-
-    // Nome
-    profileName.textContent = user.global_name || user.username || `User ${user.discord_id}`;
-
-    // Expiração
-    if (user.expires_at) {
-      const expiryDate = new Date(user.expires_at);
-      const now = new Date();
-      const daysRemaining = Math.ceil((expiryDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-      
-      if (daysRemaining < 0) {
-        profileExpiry.textContent = 'Acesso expirado';
-        profileExpiry.style.color = '#ef4444';
-      } else if (daysRemaining >= 365) {
-        profileExpiry.textContent = 'Acesso vitalício';
-      } else if (daysRemaining >= 30) {
-        profileExpiry.textContent = `Acesso válido por ${Math.floor(daysRemaining / 30)} meses`;
-      } else {
-        profileExpiry.textContent = `Acesso válido por ${daysRemaining} dias`;
-      }
-    } else {
-      profileExpiry.textContent = 'Acesso vitalício';
-    }
-  }
-
-  // Logout
-  if (logoutButton) {
-    logoutButton.addEventListener('click', () => {
-      localStorage.removeItem('auth_token');
-      localStorage.removeItem('user_data');
-      localStorage.removeItem('discord_id');
+    if (!authToken || !userData) {
       window.location.href = '/login';
-    });
-  }
+    }
 
-  // Carregar downloads
-  async function loadDownloads() {
-    try {
-      // Adiciona timestamp para evitar cache
-      const response = await fetch(`/api/downloads?t=${Date.now()}`, {
-        headers: {
-          'Authorization': `Bearer ${authToken}`
-        }
-      });
+    const user = JSON.parse(userData || '{}');
 
-      const data = await response.json();
-
-      if (data.success && data.downloads && data.downloads.length > 0) {
-        renderDownloads(data.downloads);
+    // Atualizar sidebar profile
+    const sidebarProfile = document.getElementById('sidebarProfile');
+    if (sidebarProfile) {
+      if (user.avatar_url) {
+        sidebarProfile.innerHTML = `<img src="${user.avatar_url}" alt="Avatar" />`;
       } else {
-        // Mostrar mensagem de sem acesso
-        if (downloadsGrid) downloadsGrid.style.display = 'none';
-        if (noAccess) noAccess.style.display = 'block';
+        const initial = (user.global_name || user.username || user.discord_id || '?')[0].toUpperCase();
+        sidebarProfile.textContent = initial;
       }
-    } catch (error) {
-      console.error('Error loading downloads:', error);
-      // Mostrar mensagem de erro
-      if (downloadsGrid) {
+    }
+
+    // Atualizar user info card
+    const userInfoCard = document.getElementById('userInfoCard');
+    const userAvatar = document.getElementById('userAvatar');
+    const userName = document.getElementById('userName');
+    const userExpiry = document.getElementById('userExpiry');
+
+    if (userInfoCard && userAvatar && userName && userExpiry) {
+      userInfoCard.style.display = 'flex';
+      
+      // Avatar
+      if (user.avatar_url) {
+        userAvatar.innerHTML = `<img src="${user.avatar_url}" alt="Avatar" />`;
+      } else {
+        const initial = (user.global_name || user.username || user.discord_id || '?')[0].toUpperCase();
+        userAvatar.textContent = initial;
+      }
+
+      // Nome
+      userName.textContent = user.global_name || user.username || `User ${user.discord_id}`;
+
+      // Expiração
+      if (user.expires_at) {
+        const expiryDate = new Date(user.expires_at);
+        const now = new Date();
+        const daysRemaining = Math.ceil((expiryDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+        
+        if (daysRemaining < 0) {
+          userExpiry.textContent = 'Acesso expirado';
+          userExpiry.style.color = '#ef4444';
+        } else if (daysRemaining >= 365) {
+          userExpiry.textContent = 'Acesso vitalício';
+        } else if (daysRemaining >= 30) {
+          userExpiry.textContent = `Acesso válido por ${Math.floor(daysRemaining / 30)} meses`;
+        } else {
+          userExpiry.textContent = `Acesso válido por ${daysRemaining} dias`;
+        }
+      } else {
+        userExpiry.textContent = 'Acesso vitalício';
+      }
+    }
+
+    // Logout
+    const logoutButton = document.getElementById('logoutButton');
+    if (logoutButton) {
+      logoutButton.addEventListener('click', () => {
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('user_data');
+        localStorage.removeItem('discord_id');
+        window.location.href = '/login';
+      });
+    }
+
+    // Carregar downloads
+    async function loadDownloads() {
+      const downloadsGrid = document.getElementById('downloadsGrid');
+      if (!downloadsGrid) return;
+
+      try {
+        const response = await fetch(`/api/downloads?t=${Date.now()}`, {
+          headers: {
+            'Authorization': `Bearer ${authToken}`
+          }
+        });
+
+        const data = await response.json();
+
+        if (data.success && data.downloads && data.downloads.length > 0) {
+          downloadsGrid.innerHTML = data.downloads.map(download => `
+            <div class="download-card">
+              <div class="download-content">
+                <div class="download-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+                  </svg>
+                </div>
+                <h3>${download.name}</h3>
+                <p>${download.description}</p>
+                ${(download.version || download.size) ? `
+                  <div class="download-meta">
+                    ${download.version ? `<div class="download-version">📦 ${download.version}</div>` : ''}
+                    ${download.size ? `<div class="download-size">💾 ${download.size}</div>` : ''}
+                  </div>
+                ` : ''}
+                <a href="${download.url}" class="download-button" target="_blank" rel="noopener noreferrer">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                  Download
+                </a>
+              </div>
+            </div>
+          `).join('');
+        } else {
+          downloadsGrid.innerHTML = '<p style="color: var(--theme-text-secondary); text-align: center; padding: 2rem;">Nenhum download disponível no momento.</p>';
+        }
+      } catch (error) {
+        console.error('Error loading downloads:', error);
         downloadsGrid.innerHTML = '<p style="color: var(--theme-text-secondary); text-align: center; padding: 2rem;">Erro ao carregar downloads. Tente novamente mais tarde.</p>';
       }
     }
-  }
 
-  function renderDownloads(downloads: any[]) {
-    if (!downloadsGrid) return;
-
-    downloadsGrid.innerHTML = downloads.map(download => `
-      <div class="download-card">
-        ${download.image ? `
-          <div class="download-image">
-            <img src="${download.image}" alt="${download.name}" />
-            ${download.name.includes('MAX') ? '<div class="download-badge">MAX</div>' : ''}
-          </div>
-        ` : `
-          <div class="download-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
-            </svg>
-          </div>
-        `}
-        <div class="download-content">
-          <h3>${download.name}</h3>
-          <p>${download.description}</p>
-          ${(download.version || download.size) ? `
-            <div class="download-meta">
-              ${download.version ? `<div class="download-version">${download.version}</div>` : ''}
-              ${download.size ? `<div class="download-size">${download.size}</div>` : ''}
-            </div>
-          ` : ''}
-          <a href="${download.url}" class="download-button" target="_blank" rel="noopener noreferrer">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-              <polyline points="7 10 12 15 17 10"></polyline>
-              <line x1="12" y1="15" x2="12" y2="3"></line>
-            </svg>
-            Download
-          </a>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  // Carregar downloads ao iniciar
-  loadDownloads();
-</script>
-
+    loadDownloads();
+  </script>
+</body>
+</html>
