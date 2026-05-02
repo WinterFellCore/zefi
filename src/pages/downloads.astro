@@ -46,11 +46,20 @@ import PreviewModal from '../components/PreviewModal.astro';
       margin: 0;
       padding: 0;
       padding-left: var(--sidebar-width);
+      overflow-x: hidden;
+    }
+
+    /* Garantir que a sidebar não seja afetada */
+    .sidebar {
+      position: fixed !important;
+      left: 0 !important;
+      top: 0 !important;
+      z-index: 1000 !important;
     }
 
     /* Main Content */
     .main-content {
-      flex: 1;
+      width: 100%;
       min-height: 100vh;
       overflow-y: auto;
     }
@@ -86,21 +95,24 @@ import PreviewModal from '../components/PreviewModal.astro';
 
     .downloads-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 2rem;
       margin-top: 2rem;
     }
 
     .download-card {
-      background: var(--theme-surface-1);
-      border: 1px solid var(--theme-border-color);
-      border-radius: 20px;
-      padding: 0;
+      background: rgba(31, 29, 33, 0.4);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(66, 70, 126, 0.2);
+      border-radius: 16px;
+      padding: 2rem;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      gap: 1rem;
       position: relative;
+      overflow: hidden;
     }
 
     .download-card::before {
@@ -109,101 +121,54 @@ import PreviewModal from '../components/PreviewModal.astro';
       top: 0;
       left: 0;
       right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--theme-primary) 0%, #5458a0 100%);
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--theme-primary), transparent);
       opacity: 0;
       transition: opacity 0.3s ease;
     }
 
     .download-card:hover {
-      border-color: var(--theme-primary);
-      box-shadow: 0 24px 72px rgba(66, 70, 126, 0.3);
+      background: rgba(31, 29, 33, 0.6);
+      border-color: rgba(66, 70, 126, 0.5);
       transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(66, 70, 126, 0.3);
     }
 
     .download-card:hover::before {
       opacity: 1;
     }
 
-    .download-content {
-      padding: 2rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .download-icon {
-      width: 64px;
-      height: 64px;
-      background: linear-gradient(135deg, rgba(66, 70, 126, 0.2) 0%, rgba(84, 88, 160, 0.1) 100%);
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.5rem;
-      color: var(--theme-primary);
-      transition: all 0.3s ease;
-    }
-
-    .download-card:hover .download-icon {
-      transform: scale(1.1) rotate(5deg);
-      background: linear-gradient(135deg, rgba(66, 70, 126, 0.3) 0%, rgba(84, 88, 160, 0.2) 100%);
-    }
-
-    .download-icon svg {
-      width: 32px;
-      height: 32px;
-    }
-
-    .download-card h3 {
-      margin: 0 0 1rem 0;
-      color: var(--theme-on-surface-1);
+    .download-name {
       font-size: 1.5rem;
       font-weight: 700;
-      letter-spacing: -0.01em;
+      color: var(--theme-on-surface-1);
+      margin: 0;
     }
 
-    .download-card p {
-      margin: 0 0 1.5rem 0;
-      color: var(--theme-text-secondary);
+    .download-desc {
       font-size: 0.95rem;
-      line-height: 1.7;
+      color: var(--theme-text-secondary);
+      line-height: 1.6;
       flex: 1;
     }
 
-    .download-meta {
-      display: flex;
-      gap: 1.25rem;
-      margin-bottom: 1.5rem;
-      padding: 1rem;
-      background: var(--theme-surface-2);
-      border-radius: 12px;
-      border: 1px solid var(--theme-border-color);
-    }
-
-    .download-version,
-    .download-size {
-      font-size: 0.85rem;
-      color: var(--theme-text-secondary);
+    .download-info {
+      font-size: 0.875rem;
+      color: var(--theme-primary);
+      font-weight: 600;
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      font-weight: 500;
-    }
-
-    .download-version {
-      color: var(--theme-primary);
-      font-weight: 600;
     }
 
     .download-button {
       width: 100%;
-      padding: 1.125rem;
+      padding: 1rem;
       background: linear-gradient(135deg, var(--theme-primary) 0%, #5458a0 100%);
       color: var(--theme-on-primary);
       border: none;
-      border-radius: 12px;
-      font-size: 1.05rem;
+      border-radius: 10px;
+      font-size: 1rem;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -281,7 +246,7 @@ import PreviewModal from '../components/PreviewModal.astro';
 
     @media (max-width: 1200px) {
       .downloads-grid {
-        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       }
     }
 
@@ -307,7 +272,7 @@ import PreviewModal from '../components/PreviewModal.astro';
         gap: 1.5rem;
       }
 
-      .download-content {
+      .download-card {
         padding: 1.5rem;
       }
     }
@@ -366,29 +331,17 @@ import PreviewModal from '../components/PreviewModal.astro';
         if (data.success && data.downloads && data.downloads.length > 0) {
           downloadsGrid.innerHTML = data.downloads.map(download => `
             <div class="download-card">
-              <div class="download-content">
-                <div class="download-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
-                  </svg>
-                </div>
-                <h3>${download.name}</h3>
-                <p>${download.description}</p>
-                ${(download.version || download.size) ? `
-                  <div class="download-meta">
-                    ${download.version ? `<div class="download-version">📦 ${download.version}</div>` : ''}
-                    ${download.size ? `<div class="download-size">💾 ${download.size}</div>` : ''}
-                  </div>
-                ` : ''}
-                <a href="${download.url}" class="download-button" target="_blank" rel="noopener noreferrer">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="7 10 12 15 17 10"></polyline>
-                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                  </svg>
-                  Download
-                </a>
-              </div>
+              <div class="download-name">${download.name}</div>
+              <div class="download-desc">${download.description}</div>
+              <div class="download-info">💾 ${download.size || 'N/A'} ${download.version ? `• 📦 ${download.version}` : ''}</div>
+              <a href="${download.url}" class="download-button" target="_blank" rel="noopener noreferrer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Download
+              </a>
             </div>
           `).join('');
         } else {
