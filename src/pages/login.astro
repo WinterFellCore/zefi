@@ -335,13 +335,13 @@
     errorMessage.style.display = 'none';
 
     try {
-      // Chamar API de autenticação
-      const response = await fetch('/api/auth', {
+      // Chamar API de login
+      const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ discord_id: discordId }),
+        body: JSON.stringify({ discord_id: discordId, password: password.value }),
       });
 
       const data = await response.json();
