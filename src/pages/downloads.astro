@@ -167,13 +167,36 @@ import { Container } from '@components/odyssey-theme';
 
       if (data.success && data.downloads && data.downloads.length > 0) {
         downloadsGrid.innerHTML = data.downloads.map(download => `
-          <div class="download-card">
-            <div class="name">${download.name}</div>
-            <div class="desc">Emuladores / Intel</div>
-            <div class="info">${download.size || 'N/A'} • ${download.version || 'OB53'}</div>
-            <a href="${download.url}" class="btn" target="_blank" rel="noopener noreferrer">Download</a>
+          <div class="download-card" style="background: #151a26; border-radius: 14px; padding: 20px; transition: 0.3s;">
+            <div class="name" style="font-weight: bold; margin-bottom: 5px; font-size: 1.1rem; color: #fff;">${download.name}</div>
+            <div class="desc" style="font-size: 12px; color: #aaa; margin-bottom: 10px;">Emuladores / Intel</div>
+            <div class="info" style="font-size: 11px; color: #666; margin-bottom: 15px;">${download.size || 'N/A'} • ${download.version || 'OB53'}</div>
+            <a href="${download.url}" class="btn" style="display: inline-block; padding: 8px 14px; background: #4e7cff; border-radius: 6px; text-decoration: none; color: #fff; font-size: 12px;" target="_blank" rel="noopener noreferrer">Download</a>
           </div>
         `).join('');
+        
+        // Adicionar hover effects
+        document.querySelectorAll('.download-card').forEach(card => {
+          card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+            this.style.boxShadow = '0 0 25px rgba(0,0,0,0.6)';
+          });
+          card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = 'none';
+          });
+        });
+        
+        document.querySelectorAll('.btn').forEach(btn => {
+          btn.addEventListener('mouseenter', function() {
+            this.style.background = '#6b93ff';
+            this.style.transform = 'translateY(-2px)';
+          });
+          btn.addEventListener('mouseleave', function() {
+            this.style.background = '#4e7cff';
+            this.style.transform = 'translateY(0)';
+          });
+        });
       } else {
         downloadsGrid.innerHTML = `
           <div class="empty-state">
