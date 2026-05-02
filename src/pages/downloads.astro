@@ -25,7 +25,7 @@ import { Container } from '@components/odyssey-theme';
   </Container>
 </Layout>
 
-<style>
+<style is:global>
   .downloads-section {
     padding: 5rem 0;
     min-height: 80vh;
@@ -59,50 +59,50 @@ import { Container } from '@components/odyssey-theme';
 
   /* Card padrão - Variação 1 */
   .download-card {
-    background: #151a26;
-    border-radius: 14px;
-    padding: 20px;
-    transition: 0.3s;
+    background: #151a26 !important;
+    border-radius: 14px !important;
+    padding: 20px !important;
+    transition: 0.3s !important;
   }
 
   .download-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+    transform: translateY(-5px) !important;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.6) !important;
   }
 
-  .name {
-    font-weight: bold;
-    margin-bottom: 5px;
-    font-size: 1.1rem;
-    color: #fff;
+  .download-card .name {
+    font-weight: bold !important;
+    margin-bottom: 5px !important;
+    font-size: 1.1rem !important;
+    color: #fff !important;
   }
 
-  .desc {
-    font-size: 12px;
-    color: #aaa;
-    margin-bottom: 10px;
+  .download-card .desc {
+    font-size: 12px !important;
+    color: #aaa !important;
+    margin-bottom: 10px !important;
   }
 
-  .info {
-    font-size: 11px;
-    color: #666;
-    margin-bottom: 15px;
+  .download-card .info {
+    font-size: 11px !important;
+    color: #666 !important;
+    margin-bottom: 15px !important;
   }
 
-  .btn {
-    display: inline-block;
-    padding: 8px 14px;
-    background: #4e7cff;
-    border-radius: 6px;
-    text-decoration: none;
-    color: #fff;
-    font-size: 12px;
-    transition: all 0.2s ease;
+  .download-card .btn {
+    display: inline-block !important;
+    padding: 8px 14px !important;
+    background: #4e7cff !important;
+    border-radius: 6px !important;
+    text-decoration: none !important;
+    color: #fff !important;
+    font-size: 12px !important;
+    transition: all 0.2s ease !important;
   }
 
-  .btn:hover {
-    background: #6b93ff;
-    transform: translateY(-2px);
+  .download-card .btn:hover {
+    background: #6b93ff !important;
+    transform: translateY(-2px) !important;
   }
 
   .empty-state {
