@@ -167,11 +167,11 @@ import { Container } from '@components/odyssey-theme';
 
       if (data.success && data.downloads && data.downloads.length > 0) {
         downloadsGrid.innerHTML = data.downloads.map(download => `
-          <div class="download-card" style="background: #151a26; border-radius: 14px; padding: 20px; transition: 0.3s;">
+          <div class="download-card" style="background: #1f1d21; border: 1px solid #222224; border-radius: 14px; padding: 20px; transition: 0.3s;">
             <div class="name" style="font-weight: bold; margin-bottom: 5px; font-size: 1.1rem; color: #fff;">${download.name}</div>
-            <div class="desc" style="font-size: 12px; color: #aaa; margin-bottom: 10px;">Emuladores / Intel</div>
-            <div class="info" style="font-size: 11px; color: #666; margin-bottom: 15px;">${download.size || 'N/A'} • ${download.version || 'OB53'}</div>
-            <a href="${download.url}" class="btn" style="display: inline-block; padding: 8px 14px; background: #4e7cff; border-radius: 6px; text-decoration: none; color: #fff; font-size: 12px;" target="_blank" rel="noopener noreferrer">Download</a>
+            <div class="desc" style="font-size: 12px; color: #b0afb0; margin-bottom: 10px;">Emuladores / Intel</div>
+            <div class="info" style="font-size: 11px; color: #454349; margin-bottom: 15px;">${download.size || 'N/A'} • ${download.version || 'OB53'}</div>
+            <a href="${download.url}" class="btn" style="display: inline-block; padding: 8px 14px; background: linear-gradient(135deg, #42467e, #5458a0); border-radius: 6px; text-decoration: none; color: #fff; font-size: 12px; box-shadow: 0 2px 8px rgba(66, 70, 126, 0.3);" target="_blank" rel="noopener noreferrer">Download</a>
           </div>
         `).join('');
         
@@ -179,22 +179,26 @@ import { Container } from '@components/odyssey-theme';
         document.querySelectorAll('.download-card').forEach(card => {
           card.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-5px)';
-            this.style.boxShadow = '0 0 25px rgba(0,0,0,0.6)';
+            this.style.boxShadow = '0 8px 25px rgba(66, 70, 126, 0.4)';
+            this.style.borderColor = '#42467e';
           });
           card.addEventListener('mouseleave', function() {
             this.style.transform = 'translateY(0)';
             this.style.boxShadow = 'none';
+            this.style.borderColor = '#222224';
           });
         });
         
         document.querySelectorAll('.btn').forEach(btn => {
           btn.addEventListener('mouseenter', function() {
-            this.style.background = '#6b93ff';
+            this.style.background = 'linear-gradient(135deg, #5458a0, #6b6fc0)';
             this.style.transform = 'translateY(-2px)';
+            this.style.boxShadow = '0 4px 12px rgba(66, 70, 126, 0.5)';
           });
           btn.addEventListener('mouseleave', function() {
-            this.style.background = '#4e7cff';
+            this.style.background = 'linear-gradient(135deg, #42467e, #5458a0)';
             this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '0 2px 8px rgba(66, 70, 126, 0.3)';
           });
         });
       } else {
