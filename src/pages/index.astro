@@ -3,8 +3,11 @@ import { Container } from '@components/odyssey-theme';
 import Layout from '../layouts/Page.astro';
 import ZefiHeroSection from '../components/sections/heros/ZefiHeroSection.astro';
 import ProductCard from '../components/products/ProductCard.astro';
+import Sidebar from '../components/Sidebar.astro';
 import { products } from '../config/products.js';
 ---
+
+<Sidebar />
 
 <Layout>
 	<ZefiHeroSection />
@@ -45,6 +48,17 @@ import { products } from '../config/products.js';
 </Layout>
 
 <style>
+	/* Compensar sidebar */
+	:global(body) {
+		margin-left: 80px;
+	}
+
+	@media (max-width: 768px) {
+		:global(body) {
+			margin-left: 60px;
+		}
+	}
+
 	.products-section {
 		padding: 5rem 0;
 		margin: 0 auto;
