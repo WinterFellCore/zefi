@@ -12,9 +12,9 @@ if (hasToken) {
 ---
 
 <SEO 
-  title="Admin Login - Fertel"
+  title="Admin Login - ZEFI"
   description="Painel de login do administrador"
-  keywords="admin, login, fertel"
+  keywords="admin, login, zefi"
 />
 <GoogleAnalytics />
 
@@ -23,7 +23,7 @@ if (hasToken) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Login - Fertel</title>
+  <title>Admin Login - ZEFI</title>
   <style>
     * {
       margin: 0;
@@ -33,114 +33,177 @@ if (hasToken) {
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1428 100%);
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Efeito de fundo animado */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(0, 153, 255, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
     }
 
     .login-container {
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
       padding: 2rem;
+      position: relative;
+      z-index: 1;
     }
 
     .login-box {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 2.5rem;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      background: rgba(15, 20, 40, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 16px;
+      padding: 3rem 2.5rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+    }
+
+    .login-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.5), transparent);
+      border-radius: 16px 16px 0 0;
     }
 
     .logo {
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
     }
 
     .logo h1 {
-      font-size: 2rem;
+      font-size: 2.5rem;
+      font-weight: 700;
       background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       margin-bottom: 0.5rem;
+      letter-spacing: -1px;
     }
 
     .logo p {
       color: #888;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
     }
 
     .form-group {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.75rem;
     }
 
     label {
       display: block;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
       font-size: 0.9rem;
-      color: #ccc;
-      font-weight: 500;
+      color: #aaa;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     input {
       width: 100%;
-      padding: 0.75rem;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 6px;
+      padding: 0.9rem 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 8px;
       color: #fff;
       font-size: 1rem;
       transition: all 0.3s ease;
+      position: relative;
     }
 
     input:focus {
       outline: none;
-      background: rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.08);
       border-color: rgba(0, 212, 255, 0.5);
-      box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
     }
 
     input::placeholder {
-      color: #666;
+      color: #555;
     }
 
     .login-btn {
       width: 100%;
-      padding: 0.75rem;
+      padding: 0.9rem;
       background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       color: #fff;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 1rem;
       cursor: pointer;
       transition: all 0.3s ease;
-      margin-top: 1rem;
+      margin-top: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .login-btn:hover::before {
+      left: 100%;
     }
 
     .login-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+      box-shadow: 0 12px 30px rgba(0, 212, 255, 0.4);
     }
 
     .login-btn:active {
       transform: translateY(0);
     }
 
+    .login-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
     .error {
       background: rgba(255, 59, 48, 0.1);
       border: 1px solid rgba(255, 59, 48, 0.3);
       color: #ff6b6b;
-      padding: 0.75rem;
-      border-radius: 6px;
-      margin-bottom: 1rem;
+      padding: 0.9rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
       display: none;
       font-size: 0.9rem;
+      animation: slideIn 0.3s ease;
     }
 
     .error.show {
@@ -151,11 +214,12 @@ if (hasToken) {
       background: rgba(76, 175, 80, 0.1);
       border: 1px solid rgba(76, 175, 80, 0.3);
       color: #4caf50;
-      padding: 0.75rem;
-      border-radius: 6px;
-      margin-bottom: 1rem;
+      padding: 0.9rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
       display: none;
       font-size: 0.9rem;
+      animation: slideIn 0.3s ease;
     }
 
     .success.show {
@@ -182,15 +246,26 @@ if (hasToken) {
       to { transform: rotate(360deg); }
     }
 
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .info {
       background: rgba(33, 150, 243, 0.1);
       border: 1px solid rgba(33, 150, 243, 0.3);
       color: #64b5f6;
-      padding: 0.75rem;
-      border-radius: 6px;
-      margin-bottom: 1rem;
+      padding: 0.9rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
       font-size: 0.85rem;
-      line-height: 1.4;
+      line-height: 1.5;
     }
 
     .footer {
@@ -209,18 +284,40 @@ if (hasToken) {
     .footer a:hover {
       color: #0099ff;
     }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #00d4ff;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: color 0.3s ease;
+      padding: 0.5rem;
+    }
+
+    .toggle-password:hover {
+      color: #0099ff;
+    }
+
+    .form-group {
+      position: relative;
+    }
   </style>
 </head>
 <body>
   <div class="login-container">
     <div class="login-box">
       <div class="logo">
-        <h1>🔐 FERTEL</h1>
+        <h1>ZEFI</h1>
         <p>Admin Dashboard</p>
       </div>
 
       <div class="info">
-        💡 Use seu token de admin para acessar o painel de controle de versões
+        🔐 Insira seu token de administrador para acessar o painel de controle
       </div>
 
       <form id="loginForm">
@@ -237,6 +334,7 @@ if (hasToken) {
             required
             autocomplete="off"
           >
+          <button type="button" class="toggle-password" id="togglePassword">👁️</button>
         </div>
 
         <button type="submit" class="login-btn" id="loginBtn">
@@ -248,7 +346,7 @@ if (hasToken) {
       </form>
 
       <div class="footer">
-        <p>Fertel Admin Panel © 2026</p>
+        <p>ZEFI Admin Panel © 2026</p>
       </div>
     </div>
   </div>
@@ -261,6 +359,18 @@ if (hasToken) {
     const loginBtn = document.getElementById('loginBtn');
     const btnText = document.getElementById('btnText');
     const loading = document.getElementById('loading');
+    const togglePassword = document.getElementById('togglePassword');
+
+    togglePassword.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (tokenInput.type === 'password') {
+        tokenInput.type = 'text';
+        togglePassword.textContent = '🙈';
+      } else {
+        tokenInput.type = 'password';
+        togglePassword.textContent = '👁️';
+      }
+    });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -272,7 +382,6 @@ if (hasToken) {
         return;
       }
 
-      // Mostrar loading
       loginBtn.disabled = true;
       btnText.style.display = 'none';
       loading.style.display = 'block';
@@ -280,34 +389,32 @@ if (hasToken) {
       successMsg.classList.remove('show');
 
       try {
-        // Testar token fazendo uma requisição à API
-        const response = await fetch('/api/version-control?type=dll', {
-          method: 'GET',
+        const response = await fetch('/api/admin/validate-token', {
+          method: 'POST',
           headers: {
-            'Authorization': `Bearer ${token}`
-          }
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ token })
         });
 
-        if (response.ok) {
-          // Token válido - salvar no localStorage e cookie
+        const result = await response.json();
+
+        if (result.valid) {
           localStorage.setItem('admin_token', token);
-          document.cookie = `admin_token=${token}; path=/; max-age=86400`; // 24 horas
+          document.cookie = `admin_token=${token}; path=/; max-age=86400`;
           
           showSuccess('Login bem-sucedido! Redirecionando...');
           
           setTimeout(() => {
             window.location.href = '/admin/versions';
           }, 1000);
-        } else if (response.status === 401) {
-          showError('Token inválido. Verifique e tente novamente.');
         } else {
-          showError('Erro ao validar token. Tente novamente.');
+          showError('Token inválido. Verifique e tente novamente.');
         }
       } catch (error) {
         showError('Erro de conexão. Verifique sua internet.');
         console.error('Login error:', error);
       } finally {
-        // Esconder loading
         loginBtn.disabled = false;
         btnText.style.display = 'inline';
         loading.style.display = 'none';
@@ -323,40 +430,6 @@ if (hasToken) {
       successMsg.textContent = message;
       successMsg.classList.add('show');
     }
-
-    // Mostrar/esconder token
-    const toggleBtn = document.createElement('button');
-    toggleBtn.type = 'button';
-    toggleBtn.style.cssText = `
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      color: #00d4ff;
-      cursor: pointer;
-      font-size: 1.2rem;
-    `;
-    toggleBtn.textContent = '👁️';
-    
-    const tokenGroup = document.querySelector('.form-group');
-    tokenGroup.style.position = 'relative';
-    
-    tokenInput.addEventListener('focus', () => {
-      tokenGroup.appendChild(toggleBtn);
-    });
-
-    toggleBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (tokenInput.type === 'password') {
-        tokenInput.type = 'text';
-        toggleBtn.textContent = '🙈';
-      } else {
-        tokenInput.type = 'password';
-        toggleBtn.textContent = '👁️';
-      }
-    });
   </script>
 </body>
 </html>
