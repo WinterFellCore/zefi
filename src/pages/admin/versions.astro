@@ -1,0 +1,42 @@
+---
+import Sidebar from '../../components/Sidebar.astro';
+import GoogleAnalytics from '../../components/GoogleAnalytics.astro';
+import SEO from '../../components/SEO.astro';
+import Layout from '../../layouts/Page.astro';
+import VersionControl from '../../components/VersionControl.astro';
+import AdminHeader from '../../components/AdminHeader.astro';
+import { Container } from '@components/odyssey-theme';
+
+// Verificar autenticação de admin
+const cookies = Astro.request.headers.get('cookie');
+const hasToken = cookies?.includes('admin_token');
+
+if (!hasToken) {
+  return Astro.redirect('/admin/login');
+}
+---
+
+<SEO 
+  title="Controle de Versões - Admin"
+  description="Painel de controle de versões da DLL, Loader e Auth"
+  keywords="admin, versões, controle, dll, loader"
+/>
+<GoogleAnalytics />
+<Sidebar />
+
+<Layout>
+  <Container>
+    <AdminHeader />
+    <VersionControl />
+  </Container>
+</Layout>
+
+<style is:global>
+  .version-control-dashboard {
+    padding: 2rem;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 12px;
+    color: #fff;
+    margin: 2rem 0;
+  }
+</style>

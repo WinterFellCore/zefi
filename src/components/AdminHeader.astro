@@ -1,0 +1,95 @@
+---
+// Componente de header do admin com logout
+---
+
+<div class="admin-header">
+  <div class="admin-header-content">
+    <div class="admin-title">
+      <h1>🔐 Painel de Controle de Versões</h1>
+      <p>Gerenciar versões de DLL, Loader e Auth</p>
+    </div>
+    
+    <button id="logoutBtn" class="logout-btn">
+      Sair
+    </button>
+  </div>
+</div>
+
+<style>
+  .admin-header {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 153, 255, 0.05) 100%);
+    border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+  }
+
+  .admin-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .admin-title h1 {
+    color: #00d4ff;
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .admin-title p {
+    color: #888;
+    font-size: 0.9rem;
+  }
+
+  .logout-btn {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff4444 100%);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+  }
+
+  .logout-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+  }
+
+  .logout-btn:active {
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    .admin-header-content {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .logout-btn {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  const logoutBtn = document.getElementById('logoutBtn');
+  
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      // Remover token do localStorage
+      localStorage.removeItem('admin_token');
+      
+      // Remover cookie
+      document.cookie = 'admin_token=; path=/; max-age=0';
+      
+      // Redirecionar para login
+      window.location.href = '/admin/login';
+    });
+  }
+</script>

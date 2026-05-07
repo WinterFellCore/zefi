@@ -1,0 +1,572 @@
+---
+/**
+ * Version Control Dashboard
+ * Gerencia versões de DLL, Loader e Auth
+ */
+
+interface Version {
+  id: string;
+  type: string;
+  version: string;
+  download_url: string;
+  changelog: string;
+  status: 'active' | 'paused' | 'archived';
+  created_at: string;
+}
+
+const adminToken = import.meta.env.ADMIN_TOKEN;
+
+// Buscar versões
+const response = await fetch('http://localhost:3000/api/version-control?type=all', {
+  headers: {
+    'Authorization': `Bearer ${adminToken}`
+  }
+});
+
+const versions: Version[] = await response.json();
+
+// Agrupar por tipo
+const dllVersions = versions.filter(v => v.type === 'dll');
+const loaderVersions = versions.filter(v => v.type === 'loader');
+const authVersions = versions.filter(v => v.type === 'auth');
+
+const getStatusColor = (status: string) => {
+  switch(status) {
+    case 'active': return 'bg-green-500';
+    case 'paused': return 'bg-yellow-500';
+    case 'archived': return 'bg-gray-500';
+    default: return 'bg-gray-400';
+  }
+};
+
+const getStatusText = (status: string) => {
+  switch(status) {
+    case 'active': return 'Ativo';
+    case 'paused': return 'Pausado';
+    case 'archived': return 'Arquivado';
+    default: return 'Desconhecido';
+  }
+};
+---
+
+<div class="version-control-dashboard">
+  <style>
+    .version-control-dashboard {
+      padding: 2rem;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      border-radius: 12px;
+      color: #fff;
+    }
+
+    .dashboard-header {
+      margin-bottom: 2rem;
+    }
+
+    .dashboard-header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: #00d4ff;
+    }
+
+    .dashboard-header p {
+      color: #aaa;
+      font-size: 0.95rem;
+    }
+
+    .version-sections {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .version-section {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 8px;
+      padding: 1.5rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: #00d4ff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-icon {
+      font-size: 1.5rem;
+    }
+
+    .version-item {
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 3px solid #00d4ff;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .version-info {
+      flex: 1;
+    }
+
+    .version-number {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+
+    .version-date {
+      font-size: 0.85rem;
+      color: #888;
+    }
+
+    .version-changelog {
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-top: 0.5rem;
+      max-height: 60px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .version-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .status-badge {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .version-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-left: 1rem;
+    }
+
+    .action-btn {
+      padding: 0.4rem 0.8rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn-pause {
+      background: #ff9800;
+      color: white;
+    }
+
+    .btn-pause:hover {
+      background: #f57c00;
+    }
+
+    .btn-resume {
+      background: #4caf50;
+      color: white;
+    }
+
+    .btn-resume:hover {
+      background: #45a049;
+    }
+
+    .btn-archive {
+      background: #f44336;
+      color: white;
+    }
+
+    .btn-archive:hover {
+      background: #da190b;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+      color: #888;
+    }
+
+    .upload-section {
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px dashed rgba(0, 212, 255, 0.3);
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .upload-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group label {
+      font-size: 0.9rem;
+      color: #00d4ff;
+      font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 0.75rem;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 4px;
+      color: #fff;
+      font-family: inherit;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #666;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .submit-btn {
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+      color: #000;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+    }
+  </style>
+
+  <div class="dashboard-header">
+    <h1>🎮 Controle de Versões</h1>
+    <p>Gerencie versões da DLL, Loader e Auth</p>
+  </div>
+
+  <div class="version-sections">
+    <!-- DLL Versions -->
+    <div class="version-section">
+      <div class="section-title">
+        <span class="section-icon">📦</span>
+        DLL (Fertel)
+      </div>
+      {dllVersions.length > 0 ? (
+        dllVersions.map(version => (
+          <div class="version-item">
+            <div class="version-info">
+              <div class="version-number">v{version.version}</div>
+              <div class="version-date">
+                {new Date(version.created_at).toLocaleDateString('pt-BR')}
+              </div>
+              {version.changelog && (
+                <div class="version-changelog">{version.changelog}</div>
+              )}
+            </div>
+            <div class="version-status" style={`background: rgba(0, 0, 0, 0.3);`}>
+              <div class={`status-badge ${getStatusColor(version.status)}`}></div>
+              {getStatusText(version.status)}
+            </div>
+            <div class="version-actions">
+              {version.status === 'active' && (
+                <button class="action-btn btn-pause" onclick={`pauseVersion('${version.id}')`}>
+                  ⏸ Pausar
+                </button>
+              )}
+              {version.status === 'paused' && (
+                <button class="action-btn btn-resume" onclick={`resumeVersion('${version.id}')`}>
+                  ▶ Retomar
+                </button>
+              )}
+              {version.status !== 'archived' && (
+                <button class="action-btn btn-archive" onclick={`archiveVersion('${version.id}')`}>
+                  📁 Arquivar
+                </button>
+              )}
+            </div>
+          </div>
+        ))
+      ) : (
+        <div class="empty-state">Nenhuma versão de DLL</div>
+      )}
+    </div>
+
+    <!-- Loader Versions -->
+    <div class="version-section">
+      <div class="section-title">
+        <span class="section-icon">🚀</span>
+        Loader
+      </div>
+      {loaderVersions.length > 0 ? (
+        loaderVersions.map(version => (
+          <div class="version-item">
+            <div class="version-info">
+              <div class="version-number">v{version.version}</div>
+              <div class="version-date">
+                {new Date(version.created_at).toLocaleDateString('pt-BR')}
+              </div>
+              {version.changelog && (
+                <div class="version-changelog">{version.changelog}</div>
+              )}
+            </div>
+            <div class="version-status" style={`background: rgba(0, 0, 0, 0.3);`}>
+              <div class={`status-badge ${getStatusColor(version.status)}`}></div>
+              {getStatusText(version.status)}
+            </div>
+            <div class="version-actions">
+              {version.status === 'active' && (
+                <button class="action-btn btn-pause" onclick={`pauseVersion('${version.id}')`}>
+                  ⏸ Pausar
+                </button>
+              )}
+              {version.status === 'paused' && (
+                <button class="action-btn btn-resume" onclick={`resumeVersion('${version.id}')`}>
+                  ▶ Retomar
+                </button>
+              )}
+              {version.status !== 'archived' && (
+                <button class="action-btn btn-archive" onclick={`archiveVersion('${version.id}')`}>
+                  📁 Arquivar
+                </button>
+              )}
+            </div>
+          </div>
+        ))
+      ) : (
+        <div class="empty-state">Nenhuma versão de Loader</div>
+      )}
+    </div>
+
+    <!-- Auth Versions -->
+    <div class="version-section">
+      <div class="section-title">
+        <span class="section-icon">🔐</span>
+        Auth
+      </div>
+      {authVersions.length > 0 ? (
+        authVersions.map(version => (
+          <div class="version-item">
+            <div class="version-info">
+              <div class="version-number">v{version.version}</div>
+              <div class="version-date">
+                {new Date(version.created_at).toLocaleDateString('pt-BR')}
+              </div>
+              {version.changelog && (
+                <div class="version-changelog">{version.changelog}</div>
+              )}
+            </div>
+            <div class="version-status" style={`background: rgba(0, 0, 0, 0.3);`}>
+              <div class={`status-badge ${getStatusColor(version.status)}`}></div>
+              {getStatusText(version.status)}
+            </div>
+            <div class="version-actions">
+              {version.status === 'active' && (
+                <button class="action-btn btn-pause" onclick={`pauseVersion('${version.id}')`}>
+                  ⏸ Pausar
+                </button>
+              )}
+              {version.status === 'paused' && (
+                <button class="action-btn btn-resume" onclick={`resumeVersion('${version.id}')`}>
+                  ▶ Retomar
+                </button>
+              )}
+              {version.status !== 'archived' && (
+                <button class="action-btn btn-archive" onclick={`archiveVersion('${version.id}')`}>
+                  📁 Arquivar
+                </button>
+              )}
+            </div>
+          </div>
+        ))
+      ) : (
+        <div class="empty-state">Nenhuma versão de Auth</div>
+      )}
+    </div>
+  </div>
+
+  <!-- Upload Section -->
+  <div class="upload-section">
+    <h2 style="color: #00d4ff; margin-bottom: 1rem;">📤 Enviar Nova Versão</h2>
+    <form class="upload-form" id="uploadForm">
+      <div class="form-group">
+        <label for="type">Tipo</label>
+        <select id="type" name="type" required>
+          <option value="">Selecione...</option>
+          <option value="dll">DLL (Fertel)</option>
+          <option value="loader">Loader</option>
+          <option value="auth">Auth</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="version">Versão</label>
+        <input type="text" id="version" name="version" placeholder="1.0.5" required />
+      </div>
+
+      <div class="form-group">
+        <label for="downloadUrl">URL de Download</label>
+        <input type="url" id="downloadUrl" name="downloadUrl" placeholder="https://cdn.example.com/..." required />
+      </div>
+
+      <div class="form-group">
+        <label for="changelog">Changelog</label>
+        <textarea id="changelog" name="changelog" placeholder="Descreva as mudanças..."></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">Enviar Versão</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const adminToken = import.meta.env.ADMIN_TOKEN;
+
+  async function pauseVersion(versionId) {
+    if (!confirm('Pausar esta versão?')) return;
+    
+    try {
+      const response = await fetch('/api/version-control', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
+        },
+        body: JSON.stringify({
+          id: versionId,
+          status: 'paused'
+        })
+      });
+
+      if (response.ok) {
+        alert('Versão pausada com sucesso!');
+        location.reload();
+      } else {
+        alert('Erro ao pausar versão');
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+      alert('Erro ao pausar versão');
+    }
+  }
+
+  async function resumeVersion(versionId) {
+    if (!confirm('Retomar esta versão?')) return;
+    
+    try {
+      const response = await fetch('/api/version-control', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
+        },
+        body: JSON.stringify({
+          id: versionId,
+          status: 'active'
+        })
+      });
+
+      if (response.ok) {
+        alert('Versão retomada com sucesso!');
+        location.reload();
+      } else {
+        alert('Erro ao retomar versão');
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+      alert('Erro ao retomar versão');
+    }
+  }
+
+  async function archiveVersion(versionId) {
+    if (!confirm('Arquivar esta versão?')) return;
+    
+    try {
+      const response = await fetch('/api/version-control', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
+        },
+        body: JSON.stringify({
+          id: versionId,
+          status: 'archived'
+        })
+      });
+
+      if (response.ok) {
+        alert('Versão arquivada com sucesso!');
+        location.reload();
+      } else {
+        alert('Erro ao arquivar versão');
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+      alert('Erro ao arquivar versão');
+    }
+  }
+
+  document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const data = {
+      type: formData.get('type'),
+      version: formData.get('version'),
+      downloadUrl: formData.get('downloadUrl'),
+      changelog: formData.get('changelog')
+    };
+
+    try {
+      const response = await fetch('/api/version-control', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        alert('Versão enviada com sucesso!');
+        e.target.reset();
+        location.reload();
+      } else {
+        const error = await response.json();
+        alert(`Erro: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+      alert('Erro ao enviar versão');
+    }
+  });
+</script>

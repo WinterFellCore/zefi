@@ -40,6 +40,66 @@ CREATE INDEX idx_hwid ON users(hwid);
 CREATE INDEX idx_is_active ON users(is_active);
 ```
 
+## Tabela: `versions`
+
+Gerencia versões de DLL, Loader e Auth.
+
+```sql
+CREATE TABLE versions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  type VARCHAR(50) NOT NULL,
+  version VARCHAR(20) NOT NULL,
+  download_url TEXT NOT NULL,
+  changelog TEXT,
+  status VARCHAR(20) DEFAULT 'active',
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW(),
+  
+  CONSTRAINT valid_type CHECK (type IN ('dll', 'loader', 'auth')),
+  CONSTRAINT valid_status CHECK (status IN ('active', 'paused', 'archived'))
+);
+
+-- Índices
+CREATE INDEX idx_versions_type ON versions(type);
+CREATE INDEX idx_versions_status ON versions(status);
+CREATE INDEX idx_versions_created_at ON versions(created_at DESC);
+```
+
+## Tabela: `admins`
+
+Armazena tokens de admin para autenticação.
+
+```sql
+CREATE TABLE admins (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  username VARCHAR(100) NOT NULL UNIQUE,
+  token VARCHAR(255) NOT NULL UNIQUE,
+  created_at TIMESTAMP DEFAULT NOW(),
+  last_used TIMESTAMP
+);
+
+-- Índice
+CREATE INDEX idx_admins_token ON admins(token);
+```
+
+## Tabela: `version_history`
+
+Histórico de mudanças de versão.
+
+```sql
+CREATE TABLE version_history (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  version_id UUID NOT NULL REFERENCES versions(id),
+  action VARCHAR(50) NOT NULL,
+  admin_id UUID REFERENCES admins(id),
+  notes TEXT,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Índice
+CREATE INDEX idx_version_history_version_id ON version_history(version_id);
+```
+
 ## Fluxo de Dados
 
 ### 1. Admin adiciona usuário no BD
@@ -65,6 +125,24 @@ WHERE discord_id = '123456789';
   - Discord ID existe?
   - HWID bate com o cadastrado?
   - Licença ativa e não expirada?
+
+### 4. Admin lança nova versão
+```sql
+-- Arquivar versão anterior
+UPDATE versions SET status = 'archived' 
+WHERE type = 'dll' AND status = 'active';
+
+-- Criar nova versão
+INSERT INTO versions (type, version, download_url, changelog, status)
+VALUES ('dll', '1.0.5', 'https://...', 'Fixed collider aimbot', 'active');
+```
+
+### 5. Loader verifica versão
+```sql
+SELECT * FROM versions
+WHERE type = 'dll' AND status = 'active'
+ORDER BY created_at DESC LIMIT 1;
+```
 
 ## Exemplo de Queries
 
@@ -106,6 +184,26 @@ WHERE discord_id = $1
   AND (expires_at IS NULL OR expires_at > NOW());
 ```
 
+### Obter versão ativa
+```sql
+SELECT * FROM versions
+WHERE type = $1 AND status = 'active'
+ORDER BY created_at DESC LIMIT 1;
+```
+
+### Pausar versão
+```sql
+UPDATE versions SET status = 'paused'
+WHERE id = $1;
+```
+
+### Listar histórico de versões
+```sql
+SELECT * FROM versions
+WHERE type = $1
+ORDER BY created_at DESC;
+```
+
 ## Variáveis de Ambiente (.env)
 
 ```env
@@ -117,12 +215,15 @@ JWT_SECRET=your-super-secret-key-change-this
 
 # API
 API_URL=https://your-domain.vercel.app
+
+# Admin Token
+ADMIN_TOKEN=sk_live_abc123def456
 ```
 
 ## Próximos Passos
 
-1. Criar banco de dados (Supabase, Railway, Vercel Postgres)
-2. Executar o schema SQL
-3. Configurar variáveis de ambiente
-4. Implementar as queries nas APIs
-5. Testar fluxo completo
+1. ✅ Criar banco de dados (Supabase, Railway, Vercel Postgres)
+2. ✅ Executar o schema SQL (incluindo tabelas de versão)
+3. ✅ Configurar variáveis de ambiente
+4. ⏳ Implementar as queries nas APIs
+5. ⏳ Testar fluxo completo
